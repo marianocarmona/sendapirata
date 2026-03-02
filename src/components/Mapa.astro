@@ -1,0 +1,832 @@
+---
+type RouteDef = { id: string; url: string; color: string };
+
+const MAPBOX_STYLE = "mapbox://styles/nijareno/cmm552aq5005201qz6wey2hho";
+// OJO: el token se inyecta vía .env (Astro expone PUBLIC_* al cliente).
+const MAPBOX_TOKEN = import.meta.env.PUBLIC_MAPBOX_TOKEN ?? "";
+
+// Níjar (Almería, España)
+const NIJAR_CENTER: [number, number] = [-2.2063888888889, 36.965555555556];
+
+const mapId = `map-${Math.random().toString(36).slice(2)}`;
+const shellId = `${mapId}-shell`;
+
+const defaultRoutes: RouteDef[] = [
+  { id: "ruta-01", url: "/geojson/01.geojson", color: "#3a5f73" },
+  { id: "ruta-02", url: "/geojson/02.geojson", color: "#9a6b2f" },
+  { id: "ruta-03", url: "/geojson/03.geojson", color: "#8c3b2e" },
+  { id: "ruta-04", url: "/geojson/04.geojson", color: "#4f6b4a" },
+  { id: "ruta-05", url: "/geojson/05.geojson", color: "#2f2b26" },
+];
+
+interface Props {
+  routes?: RouteDef[];
+  fitPadding?: number | { top: number; right: number; bottom: number; left: number };
+  minHeight?: string;
+  interactive?: boolean;
+  showExpand?: boolean;
+  enableRouteHighlight?: boolean;
+  fitMaxHeight?: number;
+}
+
+const {
+  routes = defaultRoutes,
+  fitPadding = 100,
+  minHeight = "100vh",
+  interactive = true,
+  showExpand = true,
+  enableRouteHighlight = false,
+  fitMaxHeight,
+} = Astro.props as Props;
+---
+
+<link
+  rel="stylesheet"
+  href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+/>
+<script is:inline src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+<div id={shellId} class="map-shell">
+  <div
+    id={mapId}
+    class="map"
+    style={`min-height: ${minHeight};`}
+    data-mapbox-token={MAPBOX_TOKEN}
+    data-mapbox-style={MAPBOX_STYLE}
+    data-mapbox-center={JSON.stringify(NIJAR_CENTER)}
+  ></div>
+
+  {showExpand ? (
+    <div class="map-ui" aria-hidden="false">
+      <button
+        type="button"
+        class="map-ui-btn"
+        data-map-action="toggle-expand"
+        aria-label="Expandir mapa"
+        title="Expandir mapa"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M9 4H5v4M15 4h4v4M9 20H5v-4M15 20h4v-4"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  ) : null}
+</div>
+
+<script is:inline define:vars={{ mapId, shellId, routes, fitPadding, interactive, enableRouteHighlight, fitMaxHeight }}>
+  function initMap() {
+    const el = document.getElementById(mapId)
+    if (!el) return
+    if (el.dataset.mapInitialized === 'true') return
+    el.dataset.mapInitialized = 'true'
+
+    const shell = document.getElementById(shellId)
+    const expandBtn = shell?.querySelector?.('[data-map-action="toggle-expand"]')
+
+    const mapboxgl = /** @type {any} */ (window).mapboxgl
+    if (!mapboxgl) {
+      console.warn('Mapbox GL JS not loaded yet, retrying...')
+      setTimeout(initMap, 100)
+      return
+    }
+
+    const token = el.getAttribute('data-mapbox-token') || ''
+    const style = el.getAttribute('data-mapbox-style') || ''
+    const centerRaw = el.getAttribute('data-mapbox-center')
+    const center = centerRaw ? JSON.parse(centerRaw) : [-2.206388, 36.965555]
+
+    mapboxgl.accessToken = token
+    const map = new mapboxgl.Map({
+      container: el,
+      style,
+      center,
+      zoom: 8,
+      // Mantener atribuciones (requerimiento de licencia), pero en modo compacto.
+      attributionControl: false,
+      logoPosition: 'bottom-right',
+    })
+
+    // Sin controles de navegación (zoom/brújula).
+    map.addControl(new mapboxgl.AttributionControl({ compact: true }), 'bottom-right')
+
+    // Configurar interacciones (por defecto, sin zoom con scroll para no secuestrar el scroll de la página)
+    try {
+      map.scrollZoom?.disable?.()
+      map.dragRotate?.disable?.()
+      map.touchZoomRotate?.disableRotation?.()
+    } catch (_) {}
+
+    if (interactive === false) {
+      try {
+        map.boxZoom?.disable?.()
+        map.dragPan?.disable?.()
+        map.keyboard?.disable?.()
+        map.doubleClickZoom?.disable?.()
+        map.touchZoomRotate?.disable?.()
+      } catch (_) {}
+    }
+
+    let refitTimer = null
+    function scheduleRefit() {
+      try {
+        if (refitTimer) clearTimeout(refitTimer)
+        refitTimer = setTimeout(() => {
+          // Recalcular padding (depende de viewport) y re-encuadrar
+          try {
+            map.resize()
+          } catch (_) {}
+
+          try {
+            // Si todavía no tenemos bounds, no hacemos nada
+            if (!routeBoundsLike) return
+            // Si estamos en modo full, no interferimos con cámara/GPS
+            // @ts-ignore
+            if (shell?.classList?.contains?.('is-expanded')) return
+            // Si hay hover/focus activo, encuadra esa ruta; si no, global
+            if (enableRouteHighlight) {
+              maybeFitToActive()
+            } else {
+              fitToRoute()
+            }
+          } catch (_) {}
+        }, 160)
+      } catch (_) {}
+    }
+
+    // Asegurar render correcto si el contenedor cambia de tamaño
+    try {
+      const ro = new ResizeObserver(() => {
+        try {
+          map.resize()
+        } catch (_) {}
+        scheduleRefit()
+      })
+      ro.observe(el)
+    } catch (_) {}
+
+    // Si cambia el tamaño del viewport, re-encuadrar (padding depende del viewport)
+    try {
+      window.addEventListener('resize', scheduleRefit, { passive: true })
+      window.addEventListener('orientationchange', scheduleRefit, { passive: true })
+    } catch (_) {}
+
+    let mapLoaded = false
+    let routeBoundsLike = null
+
+    // Expandir a pantalla completa (overlay CSS) + resize del mapa
+    function setExpanded(nextExpanded) {
+      if (!shell) return
+      if (nextExpanded) {
+        shell.classList.add('is-expanded')
+        document.documentElement.classList.add('map-no-scroll')
+        if (expandBtn) {
+          expandBtn.setAttribute('aria-label', 'Cerrar mapa')
+          expandBtn.setAttribute('title', 'Cerrar mapa')
+          expandBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          `
+        }
+      } else {
+        shell.classList.remove('is-expanded')
+        document.documentElement.classList.remove('map-no-scroll')
+        if (expandBtn) {
+          expandBtn.setAttribute('aria-label', 'Expandir mapa')
+          expandBtn.setAttribute('title', 'Expandir mapa')
+          expandBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M9 4H5v4M15 4h4v4M9 20H5v-4M15 20h4v-4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          `
+        }
+      }
+
+      // Dejar que el layout asiente y luego redimensionar Mapbox
+      setTimeout(() => map.resize(), 50)
+    }
+
+    function normalizePadding(p) {
+      if (typeof p === 'number') return p
+      if (p && typeof p === 'object') {
+        const t = Number(p.top)
+        const r = Number(p.right)
+        const b = Number(p.bottom)
+        const l = Number(p.left)
+        if ([t, r, b, l].every((n) => Number.isFinite(n))) {
+          const pad = { top: t, right: r, bottom: b, left: l }
+
+          try {
+            const w = Number(window?.innerWidth) || 1024
+            const h = Number(window?.innerHeight) || 900
+
+            // Escala el bottom con la altura del viewport.
+            // 900px es el “baseline” para el valor que nos pasan desde props.
+            const bottomScaled = Math.round(pad.bottom * (h / 900))
+            const topScaled = Math.round(pad.top * (h / 900))
+
+            const scaled = {
+              ...pad,
+              top: Math.max(40, Math.min(260, topScaled)),
+              bottom: Math.max(160, Math.min(2000, bottomScaled)),
+            }
+
+            if (w < 640) {
+              return {
+                ...scaled,
+                left: Math.min(scaled.left, 140),
+                right: Math.min(scaled.right, 80),
+                top: Math.min(scaled.top, 120),
+                bottom: Math.min(scaled.bottom, 260),
+              }
+            }
+            if (w < 1024) {
+              return {
+                ...scaled,
+                left: Math.min(scaled.left, 320),
+                right: Math.min(scaled.right, 120),
+                top: Math.min(scaled.top, 160),
+                bottom: Math.min(scaled.bottom, 460),
+              }
+            }
+
+            return scaled
+          } catch (_) {}
+          return pad
+        }
+      }
+      return 100
+    }
+
+    function computeFitPadding() {
+      const pad = normalizePadding(fitPadding)
+      if (typeof pad === 'number') return pad
+      if (!pad || typeof pad !== 'object') return pad
+
+      // En desktop, limita la “ventana” de encuadre a un alto máximo.
+      try {
+        const w = Number(window?.innerWidth) || 1024
+        const h = Number(window?.innerHeight) || 900
+        const maxH = Number(fitMaxHeight)
+        if (w >= 1024 && Number.isFinite(maxH) && maxH > 0) {
+          const requiredBottom = Math.max(0, Math.round(h - pad.top - maxH))
+          return { ...pad, bottom: Math.max(pad.bottom, requiredBottom) }
+        }
+      } catch (_) {}
+
+      return pad
+    }
+
+    function fitToRoute() {
+      if (!routeBoundsLike) return
+      const pad = computeFitPadding()
+      map.fitBounds(routeBoundsLike, { padding: pad, duration: 500 })
+    }
+
+    // Seguimiento del usuario (solo cuando el mapa está en "full")
+    let userWatchId = null
+    let hasFix = false
+
+    const userPointSourceId = 'user-point'
+    const userAccSourceId = 'user-accuracy'
+
+    /** @param {number} lng @param {number} lat @param {number} radiusMeters */
+    function accuracyCirclePolygon(lng, lat, radiusMeters) {
+      const R = 6378137
+      const toRad = (d) => (d * Math.PI) / 180
+      const toDeg = (r) => (r * 180) / Math.PI
+      const lat1 = toRad(lat)
+      const lon1 = toRad(lng)
+      const d = radiusMeters / R
+      const coords = []
+      const steps = 64
+      for (let i = 0; i <= steps; i++) {
+        const brng = (2 * Math.PI * i) / steps
+        const lat2 = Math.asin(
+          Math.sin(lat1) * Math.cos(d) +
+            Math.cos(lat1) * Math.sin(d) * Math.cos(brng),
+        )
+        const lon2 =
+          lon1 +
+          Math.atan2(
+            Math.sin(brng) * Math.sin(d) * Math.cos(lat1),
+            Math.cos(d) - Math.sin(lat1) * Math.sin(lat2),
+          )
+        coords.push([toDeg(lon2), toDeg(lat2)])
+      }
+      return {
+        type: 'Feature',
+        properties: {},
+        geometry: { type: 'Polygon', coordinates: [coords] },
+      }
+    }
+
+    function ensureUserLayers() {
+      if (map.getSource(userPointSourceId) && map.getSource(userAccSourceId)) return
+
+      map.addSource(userPointSourceId, {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+      })
+      map.addSource(userAccSourceId, {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+      })
+
+      map.addLayer({
+        id: 'user-accuracy-fill',
+        type: 'fill',
+        source: userAccSourceId,
+        paint: {
+          'fill-color': '#0ea5e9',
+          'fill-opacity': 0.12,
+        },
+      })
+      map.addLayer({
+        id: 'user-accuracy-outline',
+        type: 'line',
+        source: userAccSourceId,
+        paint: {
+          'line-color': '#0ea5e9',
+          'line-width': 2,
+          'line-opacity': 0.4,
+        },
+      })
+      map.addLayer({
+        id: 'user-point',
+        type: 'circle',
+        source: userPointSourceId,
+        paint: {
+          'circle-color': '#0ea5e9',
+          'circle-radius': 6,
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 2,
+        },
+      })
+    }
+
+    function moveUserLayersToTop() {
+      for (const layerId of ['user-accuracy-fill', 'user-accuracy-outline', 'user-point']) {
+        if (map.getLayer(layerId)) map.moveLayer(layerId)
+      }
+    }
+
+    function startUserTracking() {
+      if (!mapLoaded) return
+      if (userWatchId != null) return
+      if (!('geolocation' in navigator)) return
+
+      ensureUserLayers()
+      moveUserLayersToTop()
+
+      userWatchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const lng = pos?.coords?.longitude
+          const lat = pos?.coords?.latitude
+          const acc = pos?.coords?.accuracy
+          if (typeof lng !== 'number' || typeof lat !== 'number') return
+
+          const pointFc = {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {},
+                geometry: { type: 'Point', coordinates: [lng, lat] },
+              },
+            ],
+          }
+          const accFc = {
+            type: 'FeatureCollection',
+            features:
+              typeof acc === 'number' && Number.isFinite(acc) && acc > 0
+                ? [accuracyCirclePolygon(lng, lat, Math.min(acc, 200))]
+                : [],
+          }
+
+          const ptSrc = map.getSource(userPointSourceId)
+          const acSrc = map.getSource(userAccSourceId)
+          ptSrc?.setData?.(pointFc)
+          acSrc?.setData?.(accFc)
+
+          // Solo al estar en "full" seguimos al usuario.
+          const isExpanded = shell?.classList?.contains('is-expanded')
+          if (!isExpanded) return
+
+          if (!hasFix) {
+            hasFix = true
+            map.easeTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 15), duration: 600 })
+          } else {
+            map.easeTo({ center: [lng, lat], duration: 400 })
+          }
+        },
+        (err) => {
+          console.warn('Geolocalización no disponible/denegada', err)
+        },
+        { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 },
+      )
+    }
+
+    function stopUserTracking() {
+      if (userWatchId == null) return
+      try {
+        navigator.geolocation.clearWatch(userWatchId)
+      } catch (_) {}
+      userWatchId = null
+      hasFix = false
+    }
+
+    if (expandBtn) {
+      expandBtn.addEventListener('click', () => {
+        const isExpanded = shell?.classList?.contains('is-expanded')
+        const next = !isExpanded
+        setExpanded(next)
+        if (next) {
+          startUserTracking()
+        } else {
+          stopUserTracking()
+          // Al cerrar el modo "full", volver a encuadrar la ruta (sin centrar en usuario).
+          setTimeout(() => fitToRoute(), 80)
+        }
+      })
+    }
+
+    /** @param {any} geom @param {any} bounds */
+    function extendBoundsFromGeometry(geom, bounds) {
+      if (!geom) return
+
+      // GeoJSON geometry types: Point, MultiPoint, LineString, MultiLineString,
+      // Polygon, MultiPolygon, GeometryCollection
+      if (geom.type === 'GeometryCollection' && Array.isArray(geom.geometries)) {
+        for (const g of geom.geometries) extendBoundsFromGeometry(g, bounds)
+        return
+      }
+
+      const coords = geom.coordinates
+      if (!coords) return
+
+      /** @param {any} c */
+      function walk(c) {
+        if (!Array.isArray(c)) return
+        if (typeof c[0] === 'number' && typeof c[1] === 'number') {
+          bounds.extend([c[0], c[1]])
+          return
+        }
+        for (const child of c) walk(child)
+      }
+
+      walk(coords)
+    }
+
+    const rs = Array.isArray(routes) ? routes : []
+
+    let pendingHighlight = null
+    let activeRouteId = null
+    const routeBoundsById = new Map()
+
+    const BASE_LINE_WIDTH = 3
+    const HIGHLIGHT_LINE_WIDTH = 4.5
+    const DIM_OPACITY = 0.25
+    const HOVER_FIT_DURATION = 450
+    const BASE_POI_OPACITY = 0.9
+    const BASE_LABEL_OPACITY = 1
+
+    /** @param {string | null} activeId */
+    function applyRouteHighlight(activeId) {
+      const isActive = typeof activeId === 'string' && activeId.length > 0
+      for (const r of rs) {
+        const lineLayer = `${r.id}-line`
+        const poiLayer = `${r.id}-poi`
+        const poiLabelLayer = `${r.id}-poi-label`
+        if (!map.getLayer(lineLayer)) continue
+        if (!isActive) {
+          map.setPaintProperty(lineLayer, 'line-opacity', 1)
+          map.setPaintProperty(lineLayer, 'line-width', BASE_LINE_WIDTH)
+          if (map.getLayer(poiLayer)) {
+            map.setPaintProperty(poiLayer, 'circle-opacity', BASE_POI_OPACITY)
+            map.setPaintProperty(poiLayer, 'circle-stroke-opacity', 1)
+          }
+          if (map.getLayer(poiLabelLayer)) {
+            map.setPaintProperty(poiLabelLayer, 'text-opacity', BASE_LABEL_OPACITY)
+          }
+          continue
+        }
+        const isThis = r.id === activeId
+        map.setPaintProperty(lineLayer, 'line-opacity', isThis ? 1 : DIM_OPACITY)
+        map.setPaintProperty(lineLayer, 'line-width', isThis ? HIGHLIGHT_LINE_WIDTH : BASE_LINE_WIDTH)
+        if (map.getLayer(poiLayer)) {
+          map.setPaintProperty(poiLayer, 'circle-opacity', isThis ? BASE_POI_OPACITY : DIM_OPACITY)
+          map.setPaintProperty(poiLayer, 'circle-stroke-opacity', isThis ? 1 : DIM_OPACITY)
+        }
+        if (map.getLayer(poiLabelLayer)) {
+          map.setPaintProperty(poiLabelLayer, 'text-opacity', isThis ? BASE_LABEL_OPACITY : DIM_OPACITY)
+        }
+      }
+    }
+
+    function shouldAllowAutoFit() {
+      try {
+        if (shell?.classList?.contains('is-expanded')) return false
+      } catch (_) {}
+      return true
+    }
+
+    /** @param {string | null} rid */
+    function setActiveRoute(rid) {
+      activeRouteId = typeof rid === 'string' && rid.length ? rid : null
+      applyRouteHighlight(activeRouteId)
+      maybeFitToActive()
+    }
+
+    function maybeFitToActive() {
+      if (!enableRouteHighlight) return
+      if (!mapLoaded) return
+      if (!shouldAllowAutoFit()) return
+
+      if (activeRouteId) {
+        const b = routeBoundsById.get(activeRouteId)
+        if (b) {
+          const pad = computeFitPadding()
+          map.fitBounds(b, { padding: pad, duration: HOVER_FIT_DURATION })
+          return
+        }
+      }
+
+      fitToRoute()
+    }
+
+    if (enableRouteHighlight) {
+      window.addEventListener('sp:route-highlight', (e) => {
+        // @ts-ignore
+        const routeId = e?.detail?.routeId ?? null
+        if (!mapLoaded) {
+          pendingHighlight = routeId
+          return
+        }
+        setActiveRoute(routeId)
+      })
+    }
+
+    map.on('load', () => {
+      mapLoaded = true
+
+      for (const r of rs) {
+        if (map.getSource(r.id)) continue
+
+        map.addSource(r.id, {
+          type: 'geojson',
+          data: r.url,
+        })
+
+        map.addLayer({
+          id: `${r.id}-line`,
+          type: 'line',
+          source: r.id,
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+          },
+          paint: {
+            'line-color': r.color,
+            'line-width': BASE_LINE_WIDTH,
+            'line-opacity': 1,
+          },
+        })
+
+        // Puntos de interés (si vienen en el GeoJSON)
+        map.addLayer({
+          id: `${r.id}-poi`,
+          type: 'circle',
+          source: r.id,
+          filter: ['==', ['geometry-type'], 'Point'],
+          paint: {
+            'circle-color': r.color,
+            'circle-radius': 5,
+            'circle-opacity': 0.9,
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 2,
+          },
+        })
+
+        map.addLayer({
+          id: `${r.id}-poi-label`,
+          type: 'symbol',
+          source: r.id,
+          filter: ['==', ['geometry-type'], 'Point'],
+          minzoom: 11,
+          layout: {
+            'text-field': [
+              'coalesce',
+              ['get', 'name'],
+              ['get', 'nombre'],
+              ['get', 'title'],
+              ['get', 'titulo'],
+              '',
+            ],
+            'text-size': 12,
+            'text-offset': [0, 1.1],
+            'text-anchor': 'top',
+            'text-allow-overlap': false,
+          },
+          paint: {
+            'text-color': '#111827',
+            'text-halo-color': '#ffffff',
+            'text-halo-width': 1.5,
+          },
+        })
+      }
+
+      // Interacciones básicas POI: cursor + popup con nombre
+      for (const r of rs) {
+        const poiLayer = `${r.id}-poi`
+        map.on('mouseenter', poiLayer, () => {
+          map.getCanvas().style.cursor = 'pointer'
+        })
+        map.on('mouseleave', poiLayer, () => {
+          map.getCanvas().style.cursor = ''
+        })
+        map.on('click', poiLayer, (e) => {
+          const f = e?.features?.[0]
+          const props = f?.properties || {}
+          const label =
+            props.name ?? props.nombre ?? props.title ?? props.titulo ?? ''
+
+          const coords = f?.geometry?.coordinates
+          if (!Array.isArray(coords) || typeof coords[0] !== 'number' || typeof coords[1] !== 'number') {
+            return
+          }
+
+          if (label) {
+            new mapboxgl.Popup({ closeButton: true, closeOnClick: true })
+              .setLngLat([coords[0], coords[1]])
+              .setText(String(label))
+              .addTo(map)
+          }
+        })
+      }
+
+      // Highlight diferido (si llegó un hover antes del load)
+      if (enableRouteHighlight) {
+        if (pendingHighlight != null) setActiveRoute(pendingHighlight)
+        else setActiveRoute(null)
+      }
+
+      // Encajar el mapa a todas las rutas (con padding)
+      Promise.all(
+        rs.map(async (r) => {
+          const res = await fetch(r.url)
+          const gj = await res.json()
+          return { id: r.id, gj }
+        })
+      )
+        .then((items) => {
+          const bounds = new mapboxgl.LngLatBounds()
+
+          for (const item of items) {
+            const gj = item?.gj
+            if (!gj) continue
+
+            // Bounds por ruta (para hover/focus)
+            try {
+              const rb = new mapboxgl.LngLatBounds()
+              if (gj.type === 'FeatureCollection' && Array.isArray(gj.features)) {
+                for (const f of gj.features) extendBoundsFromGeometry(f?.geometry, rb)
+              } else if (gj.type === 'Feature') {
+                extendBoundsFromGeometry(gj.geometry, rb)
+              } else {
+                extendBoundsFromGeometry(gj, rb)
+              }
+              // @ts-ignore
+              const rbEmpty = !rb || rb._sw == null || rb._ne == null
+              if (!rbEmpty && item?.id) {
+                routeBoundsById.set(item.id, rb.toArray())
+              }
+            } catch (_) {}
+
+            if (gj.type === 'FeatureCollection' && Array.isArray(gj.features)) {
+              for (const f of gj.features) extendBoundsFromGeometry(f?.geometry, bounds)
+              continue
+            }
+            if (gj.type === 'Feature') {
+              extendBoundsFromGeometry(gj.geometry, bounds)
+              continue
+            }
+            // Si viene una Geometry directamente
+            extendBoundsFromGeometry(gj, bounds)
+          }
+
+          // Evitar fitBounds si no se extendió nada
+          // @ts-ignore - Mapbox GL expone internamente estas props
+          const isEmpty = !bounds || bounds._sw == null || bounds._ne == null
+          if (!isEmpty) {
+            const pad = computeFitPadding()
+            // Guardar bounds para poder volver a encuadrar al cerrar el modo "full"
+            routeBoundsLike = bounds.toArray()
+            map.fitBounds(bounds, { padding: pad })
+          }
+
+          // Si ya hay una ruta activa, encajar ahora que tenemos bounds
+          maybeFitToActive()
+        })
+        .catch((err) => {
+          console.warn('No se pudieron cargar los GeoJSON para fitBounds', err)
+        })
+
+      // Si el mapa ya estaba expandido cuando terminó de cargar, arrancar tracking.
+      if (shell?.classList?.contains('is-expanded')) {
+        startUserTracking()
+      }
+    })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMap)
+  } else {
+    initMap()
+  }
+</script>
+
+<style>
+  .map-shell {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-ui {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10000000000;
+    pointer-events: none;
+  }
+
+  .map-ui-btn {
+    pointer-events: auto;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    border: 1px solid var(--sp-border-2);
+    background: var(--sp-surface);
+    color: var(--sp-text);
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.35),
+      0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  .map-ui-btn:hover {
+    background: var(--sp-surface-2);
+    border-color: var(--sp-accent);
+  }
+
+  .map-ui-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .map {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+  }
+
+  :global(html.map-no-scroll) {
+    overflow: hidden;
+  }
+
+  :global(html.map-no-scroll) audio {
+    display: none;
+  }
+
+  :global(html.map-no-scroll [data-audio-player]) {
+    display: none !important;
+  }
+
+  .map-shell.is-expanded {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999999;
+    padding: 12px;
+    background: rgba(2, 6, 23, 0.45);
+    backdrop-filter: blur(4px);
+  }
+
+  .map-shell.is-expanded .map {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+</style>

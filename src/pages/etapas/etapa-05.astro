@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Mapa from '../../components/Mapa.astro';
+import EtapaNav from '../../components/EtapaNav.astro';
+import AudioPlayer from '../../components/AudioPlayer.astro';
+---
+
+<Layout title="Etapa 05 — El Fin de la Frontera" description="San José → La Fabriquilla (15,12 km)">
+	<main class="min-h-screen bg-transparent text-[var(--sp-text)]">
+		<div class="mx-auto max-w-4xl px-6 py-10">
+			<nav class="mb-8 text-sm text-[var(--sp-muted)]">
+				<a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/">Inicio</a>
+				<span class="mx-2">/</span>
+				<a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/etapas">Etapas</a>
+				<span class="mx-2">/</span>
+				<span class="text-[var(--sp-text)]">Etapa 05</span>
+			</nav>
+
+			<header class="mb-10">
+				<p class="text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">Etapa 05</p>
+				<h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">El Fin de la Frontera</h1>
+				<p class="mt-3 text-lg text-[var(--sp-muted)]">San José → La Fabriquilla (Faro)</p>
+			</header>
+
+			<div class="grid gap-6 lg:grid-cols-3">
+				<aside class="lg:sticky lg:top-6 lg:col-start-3 lg:row-start-1 lg:self-stretch">
+					<div class="h-[360px] overflow-hidden rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] lg:h-full">
+						<Mapa
+							minHeight="100%"
+							routes={[{ id: "ruta-05", url: "/geojson/05.geojson", color: "#7c3aed" }]}
+							fitPadding={20}
+						/>
+					</div>
+				</aside>
+
+				<section class="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:grid-cols-2">
+					<div class="sm:col-span-2 lg:col-span-2" data-audio-player>
+						<AudioPlayer minimal={true} src="/descargas/05.mp3" title="Etapa 05" subtitle="El Fin de la Frontera" />
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Distancia</p>
+						<p class="mt-1 text-lg font-semibold">15,12 km</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Duración estimada</p>
+						<p class="mt-1 text-lg font-semibold">4 horas y media</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Dificultad</p>
+						<p class="mt-1 text-lg font-semibold">Media-Alta</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Inicio</p>
+						<p class="mt-1 text-lg font-semibold">San José</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Final</p>
+						<p class="mt-1 text-lg font-semibold">La Fabriquilla (Faro)</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Descargas</p>
+						<div class="mt-2 flex flex-wrap gap-2">
+							<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold text-white hover:opacity-90" href="/descargas/05.pdf" download>
+								PDF
+							</a>
+							<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/05.gpx" download>
+								GPX
+							</a>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<section class="mt-10 space-y-4 text-[var(--sp-muted)]">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">Relato</h2>
+				<p>
+					¡Felicidades, caminante! Has llegado al tramo final de la Senda Pirata. Esta es una ruta de ascenso y finalización.
+					Al escalar hacia la Torre de Vela Blanca, te unirás simbólicamente a la élite de la defensa costera: el punto más alto de la cadena de alerta.
+				</p>
+				<p>
+					Desde aquí, los torreros podían ver la costa en ambas direcciones, desde San José hasta el Cabo. Es el último gran esfuerzo, con la recompensa de una vista histórica insuperable.
+				</p>
+			</section>
+
+			<section class="mt-10">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">Puntos de interés</h2>
+				<div class="mt-4 grid gap-4">
+					<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
+						<h3 class="text-lg font-semibold">Torre de Vela Blanca</h3>
+						<p class="mt-2 text-[var(--sp-muted)]">
+							Centro neurálgico del sistema. Si el fuego llegaba hasta aquí, la amenaza era inminente y las alarmas sonarían en Almería.
+							Su posición fue clave para que la cadena funcionara durante siglos.
+						</p>
+					</article>
+					<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
+						<h3 class="text-lg font-semibold">El Faro de Cabo de Gata</h3>
+						<p class="mt-2 text-[var(--sp-muted)]">
+							Símbolo de transformación histórica: se asienta sobre las ruinas del antiguo Castillo de San Francisco de Paula (El Corralete),
+							fortaleza del siglo XVIII que custodiaba este punto crucial del litoral.
+						</p>
+						<p class="mt-3 text-[var(--sp-muted)]">
+							Con la desaparición de la amenaza corsaria en el siglo XIX, la necesidad de defender la costa fue reemplazada por la de guiar la navegación civil y comercial.
+						</p>
+					</article>
+				</div>
+			</section>
+
+			<section class="mt-10 space-y-4 text-[var(--sp-muted)]">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">Contexto histórico</h2>
+				<p>
+					Durante más de dos siglos, la costa del actual Parque Natural Cabo de Gata-Níjar fue una frontera peligrosa.
+					Los ataques corsarios obligaron a levantar un sistema defensivo continuo basado en torres, castillos y vigilancia permanente.
+				</p>
+				<p>
+					La Senda Pirata recupera hoy ese trazado histórico, transformando antiguos espacios de miedo en un itinerario cultural y paisajístico.
+				</p>
+			</section>
+
+			<section class="mt-10 space-y-4 text-[var(--sp-muted)]">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">La experiencia Senda Pirata</h2>
+				<p>
+					Este recorrido no es solo una ruta de senderismo. Es una forma de caminar el paisaje con otra mirada: la de quienes vigilaban el horizonte,
+					esperaban señales desde las torres y vivían pendientes del mar.
+				</p>
+				<p>
+					Sella tu Cartilla del Vigía de senderista-pirata en los establecimientos colaboradores y continúa la Senda Pirata del Cabo de Gata por las siguientes etapas.
+				</p>
+			</section>
+
+			<EtapaNav current={5} />
+		</div>
+	</main>
+</Layout>
+

@@ -1,0 +1,376 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  subtitle?: string;
+  minimal?: boolean;
+}
+
+const { src, title = "Audio", subtitle, minimal = false } = Astro.props;
+
+const id = `ap-${Math.random().toString(36).slice(2)}`;
+---
+
+<div class="ap" data-audio-player data-ap-variant={minimal ? "minimal" : "default"} id={id}>
+  {!minimal ? (
+    <div class="ap-head">
+      <div class="ap-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M5 20h14M7 20V9.5c0-1.4 1.1-2.5 2.5-2.5h5c1.4 0 2.5 1.1 2.5 2.5V20"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M10 7V5.5A2.5 2.5 0 0 1 12.5 3H15"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+      <div class="ap-titles">
+        <p class="ap-title">{title}</p>
+        {subtitle ? <p class="ap-subtitle">{subtitle}</p> : null}
+      </div>
+    </div>
+  ) : null}
+
+  <div class="ap-controls">
+    <button type="button" class="ap-play" aria-label="Reproducir" data-ap="toggle">
+      <span class="ap-playIcon ap-playIcon--play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M9 7v10l9-5-9-5Z" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="ap-playIcon ap-playIcon--pause" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M7 6h4v12H7V6Zm6 0h4v12h-4V6Z" fill="currentColor" />
+        </svg>
+      </span>
+    </button>
+
+    <div class="ap-track" role="group" aria-label="Progreso">
+      <input
+        class="ap-range"
+        type="range"
+        min="0"
+        max="1000"
+        value="0"
+        step="1"
+        data-ap="seek"
+        aria-label="Barra de progreso"
+      />
+      <div class="ap-times" aria-hidden="false">
+        <span class="ap-time" data-ap="cur">0:00</span>
+        <span class="ap-dot" aria-hidden="true">•</span>
+        <span class="ap-time" data-ap="dur">0:00</span>
+      </div>
+    </div>
+
+    <a class="ap-download" href={src} download aria-label="Descargar audio" title="Descargar audio">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v3h14v-3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+  </div>
+
+  <audio src={src} preload="none" data-ap="audio"></audio>
+</div>
+
+<script is:inline define:vars={{ id }}>
+  ;(() => {
+    const root = document.getElementById(id)
+    if (!root) return
+    if (root.dataset.apInitialized === 'true') return
+    root.dataset.apInitialized = 'true'
+
+    const audio = root.querySelector('[data-ap="audio"]')
+    const btn = root.querySelector('[data-ap="toggle"]')
+    const seek = root.querySelector('[data-ap="seek"]')
+    const curEl = root.querySelector('[data-ap="cur"]')
+    const durEl = root.querySelector('[data-ap="dur"]')
+
+    if (!audio || !btn || !seek || !curEl || !durEl) return
+
+    const fmt = (s) => {
+      const sec = Math.max(0, Math.floor(Number(s) || 0))
+      const m = Math.floor(sec / 60)
+      const r = sec % 60
+      return `${m}:${String(r).padStart(2, '0')}`
+    }
+
+    const setUi = () => {
+      const dur = audio.duration
+      const cur = audio.currentTime
+      durEl.textContent = Number.isFinite(dur) ? fmt(dur) : '0:00'
+      curEl.textContent = Number.isFinite(cur) ? fmt(cur) : '0:00'
+
+      if (Number.isFinite(dur) && dur > 0) {
+        const v = Math.round((cur / dur) * 1000)
+        seek.value = String(Math.max(0, Math.min(1000, v)))
+        root.style.setProperty('--ap-progress', `${v / 10}%`)
+      } else {
+        seek.value = '0'
+        root.style.setProperty('--ap-progress', `0%`)
+      }
+    }
+
+    const setPlaying = (isPlaying) => {
+      root.dataset.apState = isPlaying ? 'playing' : 'paused'
+      btn.setAttribute('aria-label', isPlaying ? 'Pausar' : 'Reproducir')
+    }
+
+    btn.addEventListener('click', async () => {
+      try {
+        if (audio.paused) {
+          await audio.play()
+        } else {
+          audio.pause()
+        }
+      } catch (e) {
+        console.warn('No se pudo reproducir el audio', e)
+      }
+    })
+
+    seek.addEventListener('input', () => {
+      const dur = audio.duration
+      if (!Number.isFinite(dur) || dur <= 0) return
+      const v = Number(seek.value) / 1000
+      audio.currentTime = dur * v
+      setUi()
+    })
+
+    audio.addEventListener('loadedmetadata', setUi)
+    audio.addEventListener('timeupdate', setUi)
+    audio.addEventListener('play', () => setPlaying(true))
+    audio.addEventListener('pause', () => setPlaying(false))
+    audio.addEventListener('ended', () => {
+      setPlaying(false)
+      setUi()
+    })
+
+    setPlaying(false)
+    setUi()
+  })()
+</script>
+
+<style>
+  .ap {
+    --ap-progress: 0%;
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--sp-border);
+    background: linear-gradient(180deg, var(--sp-surface) 0%, rgba(255, 255, 255, 0.02) 100%);
+    padding: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  }
+
+  .ap[data-ap-variant="minimal"] {
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .ap-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .ap-badge {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    border: 1px solid var(--sp-border-2);
+    background: rgba(225, 29, 72, 0.10);
+    color: var(--sp-accent);
+    flex: 0 0 auto;
+  }
+
+  .ap-badge svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ap-title {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sp-muted-2);
+  }
+
+  .ap-subtitle {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sp-text);
+  }
+
+  .ap-controls {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .ap-play {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid var(--sp-border-2);
+    background: white !important;
+    color: var(--sp-text);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-play {
+    background: transparent;
+  }
+
+  .ap-play:hover {
+    color: var(--sp-accent);
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-play:hover {
+    background: rgba(225, 29, 72, 0.10);
+  }
+
+  .ap-playIcon svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .ap-play:hover svg {
+    scale: 1.5;
+    transition: scale 0.3s ease-in-out;
+  }
+
+  .ap-playIcon--pause {
+    display: none;
+  }
+
+  .ap[data-ap-state="playing"] .ap-playIcon--pause {
+    display: inline-flex;
+  }
+
+  .ap[data-ap-state="playing"] .ap-playIcon--play {
+    display: none;
+  }
+
+  .ap-track {
+    min-width: 0;
+  }
+
+  .ap-range {
+    width: 100%;
+    appearance: none;
+    height: 10px;
+    border-radius: 999px;
+    border: 1px solid var(--sp-border);
+    background: linear-gradient(90deg, var(--sp-accent) 0%, var(--sp-accent) var(--ap-progress), rgba(255, 255, 255, 0.10) var(--ap-progress));
+    outline: none;
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-range {
+    background: linear-gradient(
+      90deg,
+      var(--sp-accent) 0%,
+      var(--sp-accent) var(--ap-progress),
+      var(--sp-border-2) var(--ap-progress)
+    );
+  }
+
+  .ap-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--sp-text);
+    border: 3px solid var(--sp-accent);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-range::-webkit-slider-thumb {
+    background: var(--sp-bg);
+    box-shadow: none;
+  }
+
+  .ap-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--sp-text);
+    border: 3px solid var(--sp-accent);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-range::-moz-range-thumb {
+    background: var(--sp-bg);
+    box-shadow: none;
+  }
+
+  .ap-times {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--sp-muted);
+    user-select: none;
+  }
+
+  .ap-dot {
+    opacity: 0.7;
+  }
+
+  .ap-download {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid var(--sp-border-2);
+    background: var(--sp-surface);
+    color: var(--sp-text);
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-download {
+    background: transparent;
+  }
+
+  .ap-download:hover {
+    border-color: var(--sp-accent);
+    background: var(--sp-surface-2);
+  }
+
+  .ap[data-ap-variant="minimal"] .ap-download:hover {
+    background: rgba(225, 29, 72, 0.06);
+  }
+
+  .ap-download svg {
+    width: 20px;
+    height: 20px;
+  }
+</style>
+

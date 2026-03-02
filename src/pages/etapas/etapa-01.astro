@@ -1,0 +1,136 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Mapa from '../../components/Mapa.astro';
+import EtapaNav from '../../components/EtapaNav.astro';
+import AudioPlayer from '../../components/AudioPlayer.astro';
+---
+
+<Layout title="Etapa 01 — El Guardián del Horizonte" description="Agua Amarga → Las Negras (13 km)">
+	<main class="min-h-screen bg-transparent text-[var(--sp-text)]">
+		<div class="mx-auto max-w-4xl px-6 py-10">
+			<nav class="mb-8 text-sm text-[var(--sp-muted)]">
+				<a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/">Inicio</a>
+				<span class="mx-2">/</span>
+				<a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/etapas">Etapas</a>
+				<span class="mx-2">/</span>
+				<span class="text-[var(--sp-text)]">Etapa 01</span>
+			</nav>
+
+			<header class="mb-10">
+				<p class="text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">Etapa 01</p>
+				<h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">El Guardián del Horizonte</h1>
+				<p class="mt-3 text-lg text-[var(--sp-muted)]">Agua Amarga → Las Negras</p>
+			</header>
+
+			<div class="grid gap-6 lg:grid-cols-3">
+				<aside class="lg:sticky lg:top-6 lg:col-start-3 lg:row-start-1 lg:self-stretch">
+					<div class="h-[360px] overflow-hidden rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] lg:h-full">
+						<Mapa
+							minHeight="100%"
+							routes={[{ id: "ruta-01", url: "/geojson/01.geojson", color: "#2563eb" }]}
+							fitPadding={20}
+						/>
+						
+					</div>
+					<p class="text-xs text-[var(--sp-muted)] mt-2">
+						<strong>Tip:</strong> en el mapa entra en modo "full" para activar el GPS.
+					</p>
+				</aside>
+
+				<section class="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:grid-cols-2">
+					<div class="sm:col-span-2 lg:col-span-2" data-audio-player>
+						<AudioPlayer minimal={true} src="/descargas/01.mp3" title="Etapa 01" subtitle="El Guardián del Horizonte" />
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Distancia</p>
+						<p class="mt-1 text-lg font-semibold">13 km</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Duración estimada</p>
+						<p class="mt-1 text-lg font-semibold">3 horas y media</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Dificultad</p>
+						<p class="mt-1 text-lg font-semibold">Medio-Alto</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Inicio</p>
+						<p class="mt-1 text-lg font-semibold">Agua Amarga</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Final</p>
+						<p class="mt-1 text-lg font-semibold">Las Negras</p>
+					</div>
+					<div class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4">
+						<p class="text-xs font-semibold text-[var(--sp-muted-2)]">Descargas</p>
+						<div class="mt-2 flex flex-wrap gap-2">
+							<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold !text-white hover:opacity-90" href="/descargas/01.pdf" download>
+								PDF
+							</a>
+							<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/01.gpx" download>
+								GPX
+							</a>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<section class="mt-10 space-y-4 text-[var(--sp-muted)]">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">Relato</h2>
+				<p>
+					Tu viaje comienza con una mirada hacia el pasado. La ensenada de Agua Amarga, tan tranquila hoy, fue un puerto natural perfecto para el desembarco pirata.
+					Aquí, en 1566, el miedo se hizo realidad.
+				</p>
+				<p>
+					Mientras caminas, el primer gran hito de tu aventura es la Torre de Mesa Roldán, torre de pezuña artillada, que verás sobre la imponente meseta.
+					No podemos ascender hasta ella, pero desde aquí lo entendemos todo: su posición elevada permitía barrer el horizonte con la mirada y alcanzar cualquier nave enemiga.
+					Estás en la línea de fuego.
+				</p>
+			</section>
+
+			<section class="mt-10">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">Puntos de interés</h2>
+				<div class="mt-4 grid gap-4">
+					<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
+						<h3 class="text-lg font-semibold">Torre de Mesa Roldán</h3>
+						<p class="mt-2 text-[var(--sp-muted)]">
+							Función estratégica: torre construida en el siglo XVIII. Su diseño buscaba impedir el desembarco masivo.
+							Obsérvala desde la distancia: su posición le daba control visual absoluto.
+						</p>
+					</article>
+					<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
+						<h3 class="text-lg font-semibold">Cala San Pedro y el Tesoro del Agua</h3>
+						<p class="mt-2 text-[var(--sp-muted)]">
+							La paz de esta cala esconde una intensa lucha. Tu camino te lleva hasta el Castillo de San Pedro, cuyo objetivo era custodiar la fuente de agua dulce.
+							Los corsarios, tras días de travesía, venían aquí a reabastecerse.
+						</p>
+					</article>
+				</div>
+			</section>
+
+			<section class="mt-10 space-y-4 text-[var(--sp-muted)]">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">Contexto histórico</h2>
+				<p>
+					Durante más de dos siglos, la costa del actual Parque Natural Cabo de Gata-Níjar fue una frontera peligrosa.
+					Los ataques corsarios obligaron a levantar un sistema defensivo continuo basado en torres, castillos y vigilancia permanente.
+				</p>
+				<p>
+					La Senda Pirata recupera hoy ese trazado histórico, transformando antiguos espacios de miedo en un itinerario cultural y paisajístico.
+				</p>
+			</section>
+
+			<section class="mt-10 space-y-4 text-[var(--sp-muted)]">
+				<h2 class="text-xl font-bold text-[var(--sp-text)]">La experiencia Senda Pirata</h2>
+				<p>
+					Este recorrido no es solo una ruta de senderismo. Es una forma de caminar el paisaje con otra mirada: la de quienes vigilaban el horizonte,
+					esperaban señales desde las torres y vivían pendientes del mar.
+				</p>
+				<p>
+					Sella tu Cartilla del Vigía de senderista-pirata en los establecimientos colaboradores y continúa la Senda Pirata del Cabo de Gata por las siguientes etapas.
+				</p>
+			</section>
+
+			<EtapaNav current={1} />
+		</div>
+	</main>
+</Layout>
