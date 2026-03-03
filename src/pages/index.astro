@@ -49,77 +49,78 @@ import AudioPlayer from '../components/AudioPlayer.astro';
 			<section class="mt-12 relative z-10 mx-auto max-w-6xl px-6">
 				<p class="text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">Etapas</p>
 				<h2 class="mt-2 text-2xl font-bold">Cinco etapas, una historia</h2>
+				<div class="w-1/2">
+					<div class="mt-5 flex flex-col gap-2">
+						<div class="col-span-2">
+							<AudioPlayer
+								minimal={true}
+								src="/descargas/intro.mp3"
+								title="Audio introductorio"
+								subtitle="Activa el contexto antes de zarpar"
+							/>
+						</div>
 
-				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-					<div class="sm:col-span-2 lg:col-span-1">
-						<AudioPlayer
-							minimal={true}
-							src="/descargas/intro.mp3"
-							title="Audio introductorio"
-							subtitle="Activa el contexto antes de zarpar"
-						/>
+						<a
+							href="/etapas/etapa-01"
+							data-route-id="ruta-01"
+							class="group rounded-3xl border-2 border-route-01 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
+						>
+							<p class="flex items-center gap-2 text-xs font-semibold !text-route-01">
+								<span class="h-2.5 w-2.5 rounded-full bg-route-01"></span>
+								<span>Etapa 01</span>
+							</p>
+							<p class="mt-2 text-lg font-bold text-route-01">El Guardián del Horizonte</p>
+							<p class="mt-1 text-sm text-[var(--sp-muted)]">Agua Amarga → Las Negras · 13 km</p>
+						</a>
+						<a
+							href="/etapas/etapa-02"
+							data-route-id="ruta-02"
+							class="group rounded-3xl border-2 border-route-02 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
+						>
+							<p class="flex items-center gap-2 text-xs font-semibold !text-route-02">
+								<span class="h-2.5 w-2.5 rounded-full bg-route-02"></span>
+								<span>Etapa 02</span>
+							</p>
+							<p class="mt-2 text-lg font-bold text-route-02">La Custodia del Alumbre</p>
+							<p class="mt-1 text-sm text-[var(--sp-muted)]">Las Negras → Rodalquilar · 17 km</p>
+						</a>
+						<a
+							href="/etapas/etapa-03"
+							data-route-id="ruta-03"
+							class="group rounded-3xl border-2 border-route-03 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
+						>
+							<p class="flex items-center gap-2 text-xs font-semibold !text-route-03">
+								<span class="h-2.5 w-2.5 rounded-full bg-route-03"></span>
+								<span>Etapa 03</span>
+							</p>
+							<p class="mt-2 text-lg font-bold text-route-03">Camino del Botín</p>
+							<p class="mt-1 text-sm text-[var(--sp-muted)]">Rodalquilar → La Isleta · 14,2 km</p>
+						</a>
+						<a
+							href="/etapas/etapa-04"
+							data-route-id="ruta-04"
+							class="group rounded-3xl border-2 border-route-04 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
+						>
+							<p class="flex items-center gap-2 text-xs font-semibold !text-route-04">
+								<span class="h-2.5 w-2.5 rounded-full bg-route-04"></span>
+								<span>Etapa 04</span>
+							</p>
+							<p class="mt-2 text-lg font-bold text-route-04">El Anillo Defensivo</p>
+							<p class="mt-1 text-sm text-[var(--sp-muted)]">La Isleta → San José · 12,3 km</p>
+						</a>
+						<a
+							href="/etapas/etapa-05"
+							data-route-id="ruta-05"
+							class="group rounded-3xl border-2 border-route-05 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
+						>
+							<p class="flex items-center gap-2 text-xs font-semibold !text-route-05">
+								<span class="h-2.5 w-2.5 rounded-full bg-route-05"></span>
+								<span>Etapa 05</span>
+							</p>
+							<p class="mt-2 text-lg font-bold text-route-05">El Fin de la Frontera</p>
+							<p class="mt-1 text-sm text-[var(--sp-muted)]">San José → La Fabriquilla · 15,12 km</p>
+						</a>
 					</div>
-
-					<a
-						href="/etapas/etapa-01"
-						data-route-id="ruta-01"
-						class="group rounded-3xl border-2 border-route-01 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-					>
-						<p class="flex items-center gap-2 text-xs font-semibold !text-route-01">
-							<span class="h-2.5 w-2.5 rounded-full bg-route-01"></span>
-							<span>Etapa 01</span>
-						</p>
-						<p class="mt-2 text-lg font-bold text-route-01">El Guardián del Horizonte</p>
-						<p class="mt-1 text-sm text-[var(--sp-muted)]">Agua Amarga → Las Negras · 13 km</p>
-					</a>
-					<a
-						href="/etapas/etapa-02"
-						data-route-id="ruta-02"
-						class="group rounded-3xl border-2 border-route-02 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-					>
-						<p class="flex items-center gap-2 text-xs font-semibold !text-route-02">
-							<span class="h-2.5 w-2.5 rounded-full bg-route-02"></span>
-							<span>Etapa 02</span>
-						</p>
-						<p class="mt-2 text-lg font-bold text-route-02">La Custodia del Alumbre</p>
-						<p class="mt-1 text-sm text-[var(--sp-muted)]">Las Negras → Rodalquilar · 17 km</p>
-					</a>
-					<a
-						href="/etapas/etapa-03"
-						data-route-id="ruta-03"
-						class="group rounded-3xl border-2 border-route-03 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-					>
-						<p class="flex items-center gap-2 text-xs font-semibold !text-route-03">
-							<span class="h-2.5 w-2.5 rounded-full bg-route-03"></span>
-							<span>Etapa 03</span>
-						</p>
-						<p class="mt-2 text-lg font-bold text-route-03">Camino del Botín</p>
-						<p class="mt-1 text-sm text-[var(--sp-muted)]">Rodalquilar → La Isleta · 14,2 km</p>
-					</a>
-					<a
-						href="/etapas/etapa-04"
-						data-route-id="ruta-04"
-						class="group rounded-3xl border-2 border-route-04 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-					>
-						<p class="flex items-center gap-2 text-xs font-semibold !text-route-04">
-							<span class="h-2.5 w-2.5 rounded-full bg-route-04"></span>
-							<span>Etapa 04</span>
-						</p>
-						<p class="mt-2 text-lg font-bold text-route-04">El Anillo Defensivo</p>
-						<p class="mt-1 text-sm text-[var(--sp-muted)]">La Isleta → San José · 12,3 km</p>
-					</a>
-					<a
-						href="/etapas/etapa-05"
-						data-route-id="ruta-05"
-						class="group rounded-3xl border-2 border-route-05 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-					>
-						<p class="flex items-center gap-2 text-xs font-semibold !text-route-05">
-							<span class="h-2.5 w-2.5 rounded-full bg-route-05"></span>
-							<span>Etapa 05</span>
-						</p>
-						<p class="mt-2 text-lg font-bold text-route-05">El Fin de la Frontera</p>
-						<p class="mt-1 text-sm text-[var(--sp-muted)]">San José → La Fabriquilla · 15,12 km</p>
-					</a>
 				</div>
 			</section>
 
