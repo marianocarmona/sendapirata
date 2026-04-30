@@ -1,154 +1,204 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Mapa from '../components/Mapa.astro';
-import AudioPlayer from '../components/AudioPlayer.astro';
+import Layout from "../layouts/Layout.astro";
+import AudioPlayer from "../components/AudioPlayer.astro";
+import Cabecera from "../components/Cabecera.astro";
+import index2CssUrl from "../styles/index2.css?url";
 ---
 
 <Layout
-	title="Senda Pirata"
-	description="Cinco etapas por la costa de Cabo de Gata-Níjar, entre torres vigía, fortalezas y calas con historia corsaria."
+  title="Senda Pirata"
+  description="Ruta de cinco etapas por la costa de Cabo de Gata-Níjar."
 >
-	<div class="min-h-screen">
-		<div class="relative" id="map-container">
-			<div class="fixed inset-0">
-				<Mapa
-					minHeight="100vh"
-					interactive={false}
-					showExpand={false}
-					enableRouteHighlight={true}
-					// Empuja el encuadre hacia la zona superior derecha
-					fitPadding={{ top: 90, right: 90, bottom: 520, left: 660 }}
-					fitMaxHeight={300}
-				/>
-			</div>
+  <div class="sp2">
+    <link rel="stylesheet" href={index2CssUrl} />
+    <link rel="stylesheet" href="https://use.typekit.net/pbz8sah.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
 
-			<div class="relative z-10">
-				<div class="mx-auto max-w-6xl px-6 pt-12 sm:pt-16">
-					<div class="max-w-lg">
-						<div class="flex items-center gap-4">
-							<img
-								src="/images/senda-logo.png"
-								alt="Senda Pirata"
-								class="h-22 object-contain"
-								loading="eager"
-								decoding="async"
-							/>
-						</div>
+    <div class="container">
+      <div class="card">
+        <Cabecera
+          class="header"
+          containerClass="logo-container"
+          showBreadcrumb={false}
+          logoSrc="/sendapirata_html/logo.webp"
+          logoAlt="Senda Pirata Logo"
+          logoClass="logo-img"
+        />
 
-						<h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
-							Camina la costa como quien vigilaba el horizonte.
-						</h1>
-						<p class="mt-4 text-lg text-[var(--sp-muted)]">
-							Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Explora las etapas, descarga los tracks y
-							escucha el audio para entrar en contexto antes de empezar.
-						</p>
-					</div>
-				</div>
-			</div>
+        <div class="main-image">
+          <img src="/sendapirata_html/fondo_playa.webp" alt="Paisaje costero de Cabo de Gata" />
+        </div>
 
-			<section class="mt-12 relative z-10 mx-auto max-w-6xl px-6">
-				<p class="text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">Etapas</p>
-				<h2 class="mt-2 text-2xl font-bold">Cinco etapas, una historia</h2>
-				<div class="w-1/2">
-					<div class="mt-5 flex flex-col gap-2">
-						<div class="col-span-2">
-							<AudioPlayer
-								minimal={true}
-								src="/descargas/intro.mp3"
-								title="Audio introductorio"
-								subtitle="Activa el contexto antes de zarpar"
-							/>
-						</div>
+        <h2 class="main-title">Comienza la Senda Pirata</h2>
 
-						<a
-							href="/etapas/etapa-01"
-							data-route-id="ruta-01"
-							class="group rounded-3xl border-2 border-route-01 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-						>
-							<p class="flex items-center gap-2 text-xs font-semibold !text-route-01">
-								<span class="h-2.5 w-2.5 rounded-full bg-route-01"></span>
-								<span>Etapa 01</span>
-							</p>
-							<p class="mt-2 text-lg font-bold text-route-01">El Guardián del Horizonte</p>
-							<p class="mt-1 text-sm text-[var(--sp-muted)]">Agua Amarga → Las Negras · 13 km</p>
-						</a>
-						<a
-							href="/etapas/etapa-02"
-							data-route-id="ruta-02"
-							class="group rounded-3xl border-2 border-route-02 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-						>
-							<p class="flex items-center gap-2 text-xs font-semibold !text-route-02">
-								<span class="h-2.5 w-2.5 rounded-full bg-route-02"></span>
-								<span>Etapa 02</span>
-							</p>
-							<p class="mt-2 text-lg font-bold text-route-02">La Custodia del Alumbre</p>
-							<p class="mt-1 text-sm text-[var(--sp-muted)]">Las Negras → Rodalquilar · 17 km</p>
-						</a>
-						<a
-							href="/etapas/etapa-03"
-							data-route-id="ruta-03"
-							class="group rounded-3xl border-2 border-route-03 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-						>
-							<p class="flex items-center gap-2 text-xs font-semibold !text-route-03">
-								<span class="h-2.5 w-2.5 rounded-full bg-route-03"></span>
-								<span>Etapa 03</span>
-							</p>
-							<p class="mt-2 text-lg font-bold text-route-03">Camino del Botín</p>
-							<p class="mt-1 text-sm text-[var(--sp-muted)]">Rodalquilar → La Isleta · 14,2 km</p>
-						</a>
-						<a
-							href="/etapas/etapa-04"
-							data-route-id="ruta-04"
-							class="group rounded-3xl border-2 border-route-04 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-						>
-							<p class="flex items-center gap-2 text-xs font-semibold !text-route-04">
-								<span class="h-2.5 w-2.5 rounded-full bg-route-04"></span>
-								<span>Etapa 04</span>
-							</p>
-							<p class="mt-2 text-lg font-bold text-route-04">El Anillo Defensivo</p>
-							<p class="mt-1 text-sm text-[var(--sp-muted)]">La Isleta → San José · 12,3 km</p>
-						</a>
-						<a
-							href="/etapas/etapa-05"
-							data-route-id="ruta-05"
-							class="group rounded-3xl border-2 border-route-05 bg-white p-5 hover:shadow-lg hover:scale-102 transition-all duration-300"
-						>
-							<p class="flex items-center gap-2 text-xs font-semibold !text-route-05">
-								<span class="h-2.5 w-2.5 rounded-full bg-route-05"></span>
-								<span>Etapa 05</span>
-							</p>
-							<p class="mt-2 text-lg font-bold text-route-05">El Fin de la Frontera</p>
-							<p class="mt-1 text-sm text-[var(--sp-muted)]">San José → La Fabriquilla · 15,12 km</p>
-						</a>
-					</div>
-				</div>
-			</section>
+        <div class="intro-section">
+          <div class="intro-icon">
+            <a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio">
+              <img src="/sendapirata_html/mp3.webp" alt="Reproducir audio MP3" />
+            </a>
+          </div>
+          <div class="intro-text">
+            <p>
+              Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes de iniciar el recorrido.
+            </p>
+            <div style="margin-top: 16px;">
+              <AudioPlayer
+                minimal={true}
+                src="/descargas/intro.mp3"
+                title="Audio introductorio"
+                subtitle="Activa el contexto antes de zarpar"
+              />
+            </div>
+          </div>
+        </div>
 
-		</div>
+        <div class="stages-container" aria-label="Etapas">
+          <div class="stage-item">
+            <a href="/etapas/etapa-01" aria-label="Ir a Etapa 01">
+              <img src="/sendapirata_html/01.webp" alt="Etapa 01" class="stage-seal" />
+            </a>
+            <div class="stage-header">
+              <div class="stage-content">
+                <h3 class="stage-title">
+                  <a class="sp2-stageLink" href="/etapas/etapa-01">El Guardián del Horizonte</a>
+                </h3>
+                <p class="stage-route">Agua Amarga &gt; Las Negras · 13 km</p>
+              </div>
+              <div class="stage-downloads">
+                <a href="/descargas/01.mp3">
+                  <img src="/sendapirata_html/mp3.webp" alt="Reproducir MP3" class="download-icon" />
+                </a>
+                <a href="/descargas/01.pdf" download>
+                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
+                </a>
+                <a href="/descargas/01.gpx" download>
+                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
+                </a>
+              </div>
+            </div>
+          </div>
 
-		<footer class="mt-14 border-t border-[var(--sp-border)] pt-8 text-sm text-[var(--sp-muted)] relative z-10 mx-auto max-w-6xl px-6">
-			<p>
-				<span class="font-semibold text-[var(--sp-text)]">Senda Pirata</span> · Ruta por etapas · Cabo de Gata-Níjar
-			</p>
-		</footer>
+          <div class="stage-item">
+            <a href="/etapas/etapa-02" aria-label="Ir a Etapa 02">
+              <img src="/sendapirata_html/02.webp" alt="Etapa 02" class="stage-seal" />
+            </a>
+            <div class="stage-header">
+              <div class="stage-content">
+                <h3 class="stage-title">
+                  <a class="sp2-stageLink" href="/etapas/etapa-02">La Custodia del Alumbre y la Protección de los Mineros</a>
+                </h3>
+                <p class="stage-route">Las Negras &gt; Rodalquilar · 17 km</p>
+              </div>
+              <div class="stage-downloads">
+                <a href="/descargas/02.pdf" download>
+                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
+                </a>
+                <a href="/descargas/02.gpx" download>
+                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
+                </a>
+              </div>
+            </div>
+          </div>
 
-	</div>
+          <div class="stage-item">
+            <a href="/etapas/etapa-03" aria-label="Ir a Etapa 03">
+              <img src="/sendapirata_html/03.webp" alt="Etapa 03" class="stage-seal" />
+            </a>
+            <div class="stage-header">
+              <div class="stage-content">
+                <h3 class="stage-title">
+                  <a class="sp2-stageLink" href="/etapas/etapa-03">Camino del Botín y la Indefensión del Interior</a>
+                </h3>
+                <p class="stage-route">Rodalquilar &gt; La Isleta del Moro · 14,2 km</p>
+              </div>
+              <div class="stage-downloads">
+                <a href="/descargas/03.pdf" download>
+                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
+                </a>
+                <a href="/descargas/03.gpx" download>
+                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <a href="/etapas/etapa-04" aria-label="Ir a Etapa 04">
+              <img src="/sendapirata_html/04.webp" alt="Etapa 04" class="stage-seal" />
+            </a>
+            <div class="stage-header">
+              <div class="stage-content">
+                <h3 class="stage-title">
+                  <a class="sp2-stageLink" href="/etapas/etapa-04">El Anillo Defensivo</a>
+                </h3>
+                <p class="stage-route">La Isleta del Moro &gt; San José · 12,3 km</p>
+              </div>
+              <div class="stage-downloads">
+                <a href="/descargas/04.pdf" download>
+                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
+                </a>
+                <a href="/descargas/04.gpx" download>
+                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <a href="/etapas/etapa-05" aria-label="Ir a Etapa 05">
+              <img src="/sendapirata_html/05.webp" alt="Etapa 05" class="stage-seal" />
+            </a>
+            <div class="stage-header">
+              <div class="stage-content">
+                <h3 class="stage-title">
+                  <a class="sp2-stageLink" href="/etapas/etapa-05">El Fin de la Frontera</a>
+                </h3>
+                <p class="stage-route">San José &gt; La Fabriquilla (Faro) · 15,12 km</p>
+              </div>
+              <div class="stage-downloads">
+                <a href="/descargas/05.pdf" download>
+                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
+                </a>
+                <a href="/descargas/05.gpx" download>
+                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="footer-logo">
+            <img src="/sendapirata_html/asemparna.webp" alt="ASEMPARNA" />
+          </div>
+          <div class="footer-logo">
+            <img src="/sendapirata_html/ayuntamiento.webp" alt="Ayuntamiento de Níjar" />
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    .sp2 {
+      width: 100%;
+    }
+
+    /* Links de etapa sin estilos de enlace */
+    .sp2-stageLink {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .sp2-stageLink:hover {
+      text-decoration: underline;
+    }
+  </style>
 </Layout>
 
-<script is:inline>
-	;(() => {
-		const cards = Array.from(document.querySelectorAll('[data-route-id]'))
-		if (!cards.length) return
-
-		const emit = (routeId) => {
-			window.dispatchEvent(new CustomEvent('sp:route-highlight', { detail: { routeId } }))
-		}
-
-		for (const el of cards) {
-			el.addEventListener('pointerenter', () => emit(el.getAttribute('data-route-id')))
-			el.addEventListener('pointerleave', () => emit(null))
-			el.addEventListener('focus', () => emit(el.getAttribute('data-route-id')))
-			el.addEventListener('blur', () => emit(null))
-		}
-	})()
-</script>

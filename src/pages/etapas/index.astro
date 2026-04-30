@@ -1,180 +1,160 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import AudioPlayer from '../../components/AudioPlayer.astro';
+import Sp2Shell from '../../components/Sp2Shell.astro';
+import Sp2Footer from '../../components/Sp2Footer.astro';
+import etapasSp2CssUrl from '../../styles/etapas-sp2.css?url';
 ---
 
 <Layout title="Etapas — Senda Pirata" description="Información y enlaces a todas las etapas de la Senda Pirata.">
-	<main class="min-h-screen bg-transparent text-[var(--sp-text)]">
-		<div class="mx-auto max-w-4xl px-6 py-10">
-			<nav class="mb-8 text-sm text-[var(--sp-muted)]">
-				<a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/">Inicio</a>
-				<span class="mx-2">/</span>
-				<span class="text-[var(--sp-text)]">Etapas</span>
-			</nav>
+	<Sp2Shell extraCss={[etapasSp2CssUrl]}>
+		<header class="sp2-etapaHeader header">
+			<div class="logo-container">
+				<a href="/" aria-label="Ir a inicio">
+					<img src="/sendapirata_html/logo.webp" alt="Senda Pirata" class="logo-img" loading="eager" decoding="async" />
+				</a>
+			</div>
+			<p class="sp2-etapaBadge">Senda Pirata</p>
+			<h1 class="main-title">Etapas</h1>
+			<p class="sp2-etapaRoute">Cinco etapas por la costa de Cabo de Gata-Níjar</p>
+		</header>
 
-			<header class="mb-10">
-				<p class="text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">Senda Pirata</p>
-				<h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Etapas</h1>
-			</header>
-
-			<section class="mb-8">
-				<p class="text-[var(--sp-muted)]">
-					Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres,
-					fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para
-					comprender el contexto histórico antes de iniciar el recorrido.
+		<div class="intro-section">
+			<div class="intro-icon">
+				<a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio">
+					<img src="/sendapirata_html/mp3.webp" alt="Audio MP3" />
+				</a>
+			</div>
+			<div class="intro-text">
+				<p>
+					Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas
+					conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes
+					de iniciar el recorrido.
 				</p>
-				<div class="mt-4">
-					<div class="mt-2">
-						<AudioPlayer
-							minimal={true}
-							src="/descargas/intro.mp3"
-						/>
+				<div style="margin-top: 16px;">
+					<AudioPlayer minimal={true} src="/descargas/intro.mp3" title="Audio introductorio" subtitle="Activa el contexto antes de zarpar" />
+				</div>
+			</div>
+		</div>
+
+		<div class="stages-container" aria-label="Etapas">
+			<div class="stage-item">
+				<a href="/etapas/etapa-01" aria-label="Ir a Etapa 01">
+					<img src="/sendapirata_html/01.webp" alt="Etapa 01" class="stage-seal" />
+				</a>
+				<div class="stage-header">
+					<div class="stage-content">
+						<h3 class="stage-title"><a class="sp2-stageLink" href="/etapas/etapa-01">El Guardián del Horizonte</a></h3>
+						<p class="stage-route">Agua Amarga &gt; Las Negras · 13 km</p>
+					</div>
+					<div class="stage-downloads">
+						<a href="/descargas/01.mp3" aria-label="Audio (MP3)">
+							<img src="/sendapirata_html/mp3.webp" alt="MP3" class="download-icon" />
+						</a>
+						<a href="/descargas/01.pdf" download aria-label="PDF">
+							<img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
+						</a>
+						<a href="/descargas/01.gpx" download aria-label="GPX">
+							<img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
+						</a>
 					</div>
 				</div>
-			</section>
+			</div>
 
-			<section class="grid gap-4 sm:grid-cols-2">
-				<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
-					<p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">
-						<span class="h-2.5 w-2.5 rounded-full bg-route-01"></span>
-						<span>Etapa 01</span>
-					</p>
-					<h2 class="mt-2 text-xl font-bold">El Guardián del Horizonte</h2>
-					<p class="mt-1 text-[var(--sp-muted)]">Agua Amarga → Las Negras</p>
-					<div class="mt-4 grid gap-2 text-sm text-[var(--sp-muted)]">
-						<p><span class="font-semibold text-[var(--sp-text)]">Distancia:</span> 13 km</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Duración:</span> 3 horas y media</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Dificultad:</span> Medio-Alto</p>
+			<div class="stage-item">
+				<a href="/etapas/etapa-02" aria-label="Ir a Etapa 02">
+					<img src="/sendapirata_html/02.webp" alt="Etapa 02" class="stage-seal" />
+				</a>
+				<div class="stage-header">
+					<div class="stage-content">
+						<h3 class="stage-title"><a class="sp2-stageLink" href="/etapas/etapa-02">La Custodia del Alumbre y la Protección de los Mineros</a></h3>
+						<p class="stage-route">Las Negras &gt; Rodalquilar · 17 km</p>
 					</div>
-					<div class="mt-5 flex flex-wrap gap-2">
-						<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold text-white hover:opacity-90" href="/etapas/etapa-01">
-							Ver etapa
+					<div class="stage-downloads">
+						<a href="/descargas/02.mp3" aria-label="Audio (MP3)">
+							<img src="/sendapirata_html/mp3.webp" alt="MP3" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/01.pdf" download>
-							PDF
+						<a href="/descargas/02.pdf" download aria-label="PDF">
+							<img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/01.gpx" download>
-							GPX
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/01.mp3">
-							Audio
+						<a href="/descargas/02.gpx" download aria-label="GPX">
+							<img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
 						</a>
 					</div>
-				</article>
+				</div>
+			</div>
 
-				<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
-					<p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">
-						<span class="h-2.5 w-2.5 rounded-full bg-route-02"></span>
-						<span>Etapa 02</span>
-					</p>
-					<h2 class="mt-2 text-xl font-bold">La Custodia del Alumbre y la Protección de los Mineros</h2>
-					<p class="mt-1 text-[var(--sp-muted)]">Las Negras → Rodalquilar</p>
-					<div class="mt-4 grid gap-2 text-sm text-[var(--sp-muted)]">
-						<p><span class="font-semibold text-[var(--sp-text)]">Distancia:</span> 17 km</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Duración:</span> 4 horas y media</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Dificultad:</span> Media-Alta</p>
+			<div class="stage-item">
+				<a href="/etapas/etapa-03" aria-label="Ir a Etapa 03">
+					<img src="/sendapirata_html/03.webp" alt="Etapa 03" class="stage-seal" />
+				</a>
+				<div class="stage-header">
+					<div class="stage-content">
+						<h3 class="stage-title"><a class="sp2-stageLink" href="/etapas/etapa-03">Camino del Botín y la Indefensión del Interior</a></h3>
+						<p class="stage-route">Rodalquilar &gt; La Isleta del Moro · 14,2 km</p>
 					</div>
-					<div class="mt-5 flex flex-wrap gap-2">
-						<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold text-white hover:opacity-90" href="/etapas/etapa-02">
-							Ver etapa
+					<div class="stage-downloads">
+						<a href="/descargas/03.mp3" aria-label="Audio (MP3)">
+							<img src="/sendapirata_html/mp3.webp" alt="MP3" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/02.pdf" download>
-							PDF
+						<a href="/descargas/03.pdf" download aria-label="PDF">
+							<img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/02.gpx" download>
-							GPX
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/02.mp3">
-							Audio
+						<a href="/descargas/03.gpx" download aria-label="GPX">
+							<img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
 						</a>
 					</div>
-				</article>
+				</div>
+			</div>
 
-				<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
-					<p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">
-						<span class="h-2.5 w-2.5 rounded-full bg-route-03"></span>
-						<span>Etapa 03</span>
-					</p>
-					<h2 class="mt-2 text-xl font-bold">Camino del Botín y la Indefensión del Interior</h2>
-					<p class="mt-1 text-[var(--sp-muted)]">Rodalquilar → La Isleta del Moro</p>
-					<div class="mt-4 grid gap-2 text-sm text-[var(--sp-muted)]">
-						<p><span class="font-semibold text-[var(--sp-text)]">Distancia:</span> 14,2 km</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Duración:</span> 4 horas</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Dificultad:</span> Media-Alta</p>
+			<div class="stage-item">
+				<a href="/etapas/etapa-04" aria-label="Ir a Etapa 04">
+					<img src="/sendapirata_html/04.webp" alt="Etapa 04" class="stage-seal" />
+				</a>
+				<div class="stage-header">
+					<div class="stage-content">
+						<h3 class="stage-title"><a class="sp2-stageLink" href="/etapas/etapa-04">El Anillo Defensivo</a></h3>
+						<p class="stage-route">La Isleta del Moro &gt; San José · 12,3 km</p>
 					</div>
-					<div class="mt-5 flex flex-wrap gap-2">
-						<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold text-white hover:opacity-90" href="/etapas/etapa-03">
-							Ver etapa
+					<div class="stage-downloads">
+						<a href="/descargas/04.mp3" aria-label="Audio (MP3)">
+							<img src="/sendapirata_html/mp3.webp" alt="MP3" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/03.pdf" download>
-							PDF
+						<a href="/descargas/04.pdf" download aria-label="PDF">
+							<img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/03.gpx" download>
-							GPX
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/03.mp3">
-							Audio
+						<a href="/descargas/04.gpx" download aria-label="GPX">
+							<img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
 						</a>
 					</div>
-				</article>
+				</div>
+			</div>
 
-				<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5">
-					<p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">
-						<span class="h-2.5 w-2.5 rounded-full bg-route-04"></span>
-						<span>Etapa 04</span>
-					</p>
-					<h2 class="mt-2 text-xl font-bold">El Anillo Defensivo</h2>
-					<p class="mt-1 text-[var(--sp-muted)]">La Isleta del Moro → San José</p>
-					<div class="mt-4 grid gap-2 text-sm text-[var(--sp-muted)]">
-						<p><span class="font-semibold text-[var(--sp-text)]">Distancia:</span> 12,3 km</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Duración:</span> 3 horas</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Dificultad:</span> Media-Baja</p>
+			<div class="stage-item">
+				<a href="/etapas/etapa-05" aria-label="Ir a Etapa 05">
+					<img src="/sendapirata_html/05.webp" alt="Etapa 05" class="stage-seal" />
+				</a>
+				<div class="stage-header">
+					<div class="stage-content">
+						<h3 class="stage-title"><a class="sp2-stageLink" href="/etapas/etapa-05">El Fin de la Frontera</a></h3>
+						<p class="stage-route">San José &gt; La Fabriquilla (Faro) · 15,12 km</p>
 					</div>
-					<div class="mt-5 flex flex-wrap gap-2">
-						<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold text-white hover:opacity-90" href="/etapas/etapa-04">
-							Ver etapa
+					<div class="stage-downloads">
+						<a href="/descargas/05.mp3" aria-label="Audio (MP3)">
+							<img src="/sendapirata_html/mp3.webp" alt="MP3" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/04.pdf" download>
-							PDF
+						<a href="/descargas/05.pdf" download aria-label="PDF">
+							<img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
 						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/04.gpx" download>
-							GPX
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/04.mp3">
-							Audio
+						<a href="/descargas/05.gpx" download aria-label="GPX">
+							<img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
 						</a>
 					</div>
-				</article>
-
-				<article class="rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-5 sm:col-span-2">
-					<p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--sp-muted-2)]">
-						<span class="h-2.5 w-2.5 rounded-full bg-route-05"></span>
-						<span>Etapa 05</span>
-					</p>
-					<h2 class="mt-2 text-xl font-bold">El Fin de la Frontera</h2>
-					<p class="mt-1 text-[var(--sp-muted)]">San José → La Fabriquilla (Faro)</p>
-					<div class="mt-4 grid gap-2 text-sm text-[var(--sp-muted)] sm:grid-cols-3">
-						<p><span class="font-semibold text-[var(--sp-text)]">Distancia:</span> 15,12 km</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Duración:</span> 4 horas y media</p>
-						<p><span class="font-semibold text-[var(--sp-text)]">Dificultad:</span> Media-Alta</p>
-					</div>
-					<div class="mt-5 flex flex-wrap gap-2">
-						<a class="inline-flex items-center rounded-md bg-[var(--sp-accent)] px-3 py-1.5 text-sm font-semibold text-white hover:opacity-90" href="/etapas/etapa-05">
-							Ver etapa
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/05.pdf" download>
-							PDF
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/05.gpx" download>
-							GPX
-						</a>
-						<a class="inline-flex items-center rounded-md border border-[var(--sp-border-2)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[var(--sp-text)] hover:bg-[var(--sp-surface-2)]" href="/descargas/05.mp3">
-							Audio
-						</a>
-					</div>
-				</article>
-			</section>
+				</div>
+			</div>
 		</div>
-	</main>
+
+		<Sp2Footer />
+	</Sp2Shell>
 </Layout>
 

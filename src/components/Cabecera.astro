@@ -1,0 +1,49 @@
+---
+interface Props {
+  etapa?: number;
+  class?: string;
+  containerClass?: string;
+  showLogo?: boolean;
+  showBreadcrumb?: boolean;
+  logoSrc?: string;
+  logoAlt?: string;
+  logoClass?: string;
+}
+
+const {
+  etapa,
+  class: className,
+  containerClass = "mx-auto max-w-4xl px-6 py-10",
+  showLogo = true,
+  showBreadcrumb = true,
+  logoSrc = "/images/senda-logo.png",
+  logoAlt = "Senda Pirata",
+  logoClass = "h-22 object-contain",
+} = Astro.props as Props;
+
+const fmtEtapa = (n: number) => String(Math.max(0, n)).padStart(2, "0");
+---
+
+<header class={className}>
+  <div class={containerClass}>
+    {showLogo ? (
+      <img src={logoSrc} alt={logoAlt} class={logoClass} />
+    ) : null}
+
+    {showBreadcrumb ? (
+      <nav class={showLogo ? "mt-6 mb-0 text-sm text-[var(--sp-muted)]" : "mb-0 text-sm text-[var(--sp-muted)]"}>
+        <a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/">Inicio</a>
+        <span class="mx-2">/</span>
+        {typeof etapa === "number" ? (
+          <>
+            <a class="underline decoration-[var(--sp-border)] underline-offset-4 hover:text-[var(--sp-text)]" href="/etapas">Etapas</a>
+            <span class="mx-2">/</span>
+            <span class="text-[var(--sp-text)]">Etapa {fmtEtapa(etapa)}</span>
+          </>
+        ) : (
+          <span class="text-[var(--sp-text)]">Etapas</span>
+        )}
+      </nav>
+    ) : null}
+  </div>
+</header>

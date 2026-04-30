@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+  containerClass?: string;
+}
+
+const {
+  class: className,
+  containerClass = "mx-auto max-w-4xl px-6 py-10",
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<footer class={className}>
+  <div class={containerClass}>
+    <div class="flex items-center justify-between py-6">
+      <img src="/images/asemparna.webp" alt="Senda Pirata" class="h-12 object-contain" />
+      <img src="/images/ayuntamiento.webp" alt="Senda Pirata" class="h-12 object-contain" />
+
+    </div>
+    <p class="text-sm text-[var(--sp-muted)]">
+      <span class="font-semibold text-[var(--sp-text)]">{year} © Senda Pirata</span> · Ruta por etapas · Cabo de Gata-Níjar
+    </p>
+  </div>
+</footer>
+

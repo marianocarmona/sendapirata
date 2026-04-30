@@ -53,6 +53,12 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
     </button>
 
     <div class="ap-track" role="group" aria-label="Progreso">
+
+      <div class="ap-times" aria-hidden="false">
+        <span class="ap-time" data-ap="cur">0:00</span>
+        <span class="ap-dot" aria-hidden="true">•</span>
+        <span class="ap-time" data-ap="dur">0:00</span>
+      </div>
       <input
         class="ap-range"
         type="range"
@@ -63,11 +69,6 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
         data-ap="seek"
         aria-label="Barra de progreso"
       />
-      <div class="ap-times" aria-hidden="false">
-        <span class="ap-time" data-ap="cur">0:00</span>
-        <span class="ap-dot" aria-hidden="true">•</span>
-        <span class="ap-time" data-ap="dur">0:00</span>
-      </div>
     </div>
 
     <a class="ap-download" href={src} download aria-label="Descargar audio" title="Descargar audio">
@@ -171,7 +172,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
     border: 1px solid var(--sp-border);
     background: linear-gradient(180deg, var(--sp-surface) 0%, rgba(255, 255, 255, 0.02) 100%);
     padding: 14px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    margin: 10px 0;
   }
 
   .ap[data-ap-variant="minimal"] {
@@ -330,7 +331,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
   }
 
   .ap-times {
-    margin-top: 8px;
+    margin-top: 0px;
     display: flex;
     gap: 8px;
     align-items: center;

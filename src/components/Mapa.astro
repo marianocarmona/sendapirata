@@ -27,6 +27,9 @@ interface Props {
   showExpand?: boolean;
   enableRouteHighlight?: boolean;
   fitMaxHeight?: number;
+  fitMaxWidth?: number;
+  fitMaxWidthVw?: number;
+  fitSymmetricY?: boolean;
 }
 
 const {
@@ -37,6 +40,9 @@ const {
   showExpand = true,
   enableRouteHighlight = false,
   fitMaxHeight,
+  fitMaxWidth,
+  fitMaxWidthVw,
+  fitSymmetricY = true,
 } = Astro.props as Props;
 ---
 
@@ -79,7 +85,7 @@ const {
   ) : null}
 </div>
 
-<script is:inline define:vars={{ mapId, shellId, routes, fitPadding, interactive, enableRouteHighlight, fitMaxHeight }}>
+<script is:inline define:vars={{ mapId, shellId, routes, fitPadding, interactive, enableRouteHighlight, fitMaxHeight, fitMaxWidth, fitMaxWidthVw, fitSymmetricY }}>
   function initMap() {
     const el = document.getElementById(mapId)
     if (!el) return
@@ -275,6 +281,8 @@ const {
       if (typeof pad === 'number') return pad
       if (!pad || typeof pad !== 'object') return pad
 
+      let out = pad
+
       // En desktop, limita la “ventana” de encuadre a un alto máximo.
       try {
         const w = Number(window?.innerWidth) || 1024
@@ -282,11 +290,36 @@ const {
         const maxH = Number(fitMaxHeight)
         if (w >= 1024 && Number.isFinite(maxH) && maxH > 0) {
           const requiredBottom = Math.max(0, Math.round(h - pad.top - maxH))
-          return { ...pad, bottom: Math.max(pad.bottom, requiredBottom) }
+          out = { ...pad, bottom: Math.max(pad.bottom, requiredBottom) }
         }
       } catch (_) {}
 
-      return pad
+      // En desktop, limita la “ventana” de encuadre a un ancho máximo,
+      // anclándola al lado derecho (útil para evitar paneles de info a la izquierda).
+      try {
+        const w = Number(window?.innerWidth) || 1024
+        const vw = Number(fitMaxWidthVw)
+        const px = Number(fitMaxWidth)
+        const maxW =
+          Number.isFinite(vw) && vw > 0 ? Math.round(w * (vw / 100)) : px
+        if (w >= 1024 && Number.isFinite(maxW) && maxW > 0) {
+          const requiredLeft = Math.max(0, Math.round(w - out.right - maxW))
+          out = { ...out, left: Math.max(out.left, requiredLeft) }
+        }
+      } catch (_) {}
+
+      // Por defecto, padding vertical simétrico (top = bottom),
+      // salvo cuando estamos forzando una ventana con fitMaxHeight.
+      try {
+        const maxH = Number(fitMaxHeight)
+        const usingMaxH = Number.isFinite(maxH) && maxH > 0
+        if (fitSymmetricY && !usingMaxH) {
+          const v = Number(out.top)
+          if (Number.isFinite(v)) out = { ...out, bottom: v }
+        }
+      } catch (_) {}
+
+      return out
     }
 
     function fitToRoute() {
@@ -297,6 +330,7 @@ const {
 
     // Seguimiento del usuario (solo cuando el mapa está en "full")
     let userWatchId = null
+    let userPingTimer = null
     let hasFix = false
 
     const userPointSourceId = 'user-point'
@@ -391,52 +425,72 @@ const {
       ensureUserLayers()
       moveUserLayersToTop()
 
+      const applyPos = (pos) => {
+        const lng = pos?.coords?.longitude
+        const lat = pos?.coords?.latitude
+        const acc = pos?.coords?.accuracy
+        if (typeof lng !== 'number' || typeof lat !== 'number') return
+
+        const pointFc = {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: {},
+              geometry: { type: 'Point', coordinates: [lng, lat] },
+            },
+          ],
+        }
+        const accFc = {
+          type: 'FeatureCollection',
+          features:
+            typeof acc === 'number' && Number.isFinite(acc) && acc > 0
+              ? [accuracyCirclePolygon(lng, lat, Math.min(acc, 200))]
+              : [],
+        }
+
+        const ptSrc = map.getSource(userPointSourceId)
+        const acSrc = map.getSource(userAccSourceId)
+        ptSrc?.setData?.(pointFc)
+        acSrc?.setData?.(accFc)
+
+        // Solo al estar en "full" seguimos al usuario.
+        const isExpanded = shell?.classList?.contains('is-expanded')
+        if (!isExpanded) return
+
+        if (!hasFix) {
+          hasFix = true
+          map.easeTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 15), duration: 600 })
+        } else {
+          map.easeTo({ center: [lng, lat], duration: 400 })
+        }
+      }
+
       userWatchId = navigator.geolocation.watchPosition(
-        (pos) => {
-          const lng = pos?.coords?.longitude
-          const lat = pos?.coords?.latitude
-          const acc = pos?.coords?.accuracy
-          if (typeof lng !== 'number' || typeof lat !== 'number') return
-
-          const pointFc = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: { type: 'Point', coordinates: [lng, lat] },
-              },
-            ],
-          }
-          const accFc = {
-            type: 'FeatureCollection',
-            features:
-              typeof acc === 'number' && Number.isFinite(acc) && acc > 0
-                ? [accuracyCirclePolygon(lng, lat, Math.min(acc, 200))]
-                : [],
-          }
-
-          const ptSrc = map.getSource(userPointSourceId)
-          const acSrc = map.getSource(userAccSourceId)
-          ptSrc?.setData?.(pointFc)
-          acSrc?.setData?.(accFc)
-
-          // Solo al estar en "full" seguimos al usuario.
-          const isExpanded = shell?.classList?.contains('is-expanded')
-          if (!isExpanded) return
-
-          if (!hasFix) {
-            hasFix = true
-            map.easeTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 15), duration: 600 })
-          } else {
-            map.easeTo({ center: [lng, lat], duration: 400 })
-          }
-        },
+        (pos) => applyPos(pos),
         (err) => {
           console.warn('Geolocalización no disponible/denegada', err)
         },
         { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 },
       )
+
+      // Refuerzo: re-sincronizar como mínimo cada 60s sin recargar la página.
+      // Esto ayuda si el SO/Browser ralentiza watchPosition en segundo plano.
+      if (userPingTimer == null) {
+        try {
+          userPingTimer = setInterval(() => {
+            try {
+              const isExpanded = shell?.classList?.contains('is-expanded')
+              if (!isExpanded) return
+              navigator.geolocation.getCurrentPosition(
+                (pos) => applyPos(pos),
+                () => {},
+                { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 },
+              )
+            } catch (_) {}
+          }, 60_000)
+        } catch (_) {}
+      }
     }
 
     function stopUserTracking() {
@@ -445,6 +499,12 @@ const {
         navigator.geolocation.clearWatch(userWatchId)
       } catch (_) {}
       userWatchId = null
+      if (userPingTimer != null) {
+        try {
+          clearInterval(userPingTimer)
+        } catch (_) {}
+      }
+      userPingTimer = null
       hasFix = false
     }
 
