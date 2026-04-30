@@ -1,17 +1,8 @@
 ---
-import sp2CssUrl from "../styles/index2.css?url";
-
-interface Props {
-  extraCss?: string[];
-}
-
-const { extraCss = [] } = Astro.props as Props;
+// Tailwind styles are loaded globally via `src/styles/global.css` in `Layout.astro`.
 ---
 
-<div class="sp2">
-  <link rel="stylesheet" href={sp2CssUrl} />
-  {extraCss.map((href) => <link rel="stylesheet" href={href} />)}
-
+<div class="min-h-screen flex items-center justify-center p-0 md:p-10 bg-[#f5f0e8] font-['Roboto',_sans-serif]">
   <link rel="stylesheet" href="https://use.typekit.net/pbz8sah.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,8 +11,8 @@ const { extraCss = [] } = Astro.props as Props;
     rel="stylesheet"
   />
 
-  <div class="container">
-    <div class="card">
+  <div class="w-full max-w-none md:max-w-[1024px] flex justify-center">
+    <div class="w-full bg-white shadow-md p-5 md:p-10 rounded-none md:rounded-[20px] min-h-screen md:min-h-0">
       <slot />
     </div>
   </div>

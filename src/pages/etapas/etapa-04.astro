@@ -4,79 +4,100 @@ import Mapa from '../../components/Mapa.astro';
 import EtapaNav from '../../components/EtapaNav.astro';
 import AudioPlayer from '../../components/AudioPlayer.astro';
 import Sp2Shell from '../../components/Sp2Shell.astro';
-import Sp2Footer from '../../components/Sp2Footer.astro';
-import etapasSp2CssUrl from '../../styles/etapas-sp2.css?url';
+import Pie from '../../components/Pie.astro';
+import Cabecera from '../../components/Cabecera.astro';
+import EtapaCierre from '../../components/EtapaCierre.astro';
 ---
 
 <Layout title="Etapa 04 — El Anillo Defensivo" description="La Isleta del Moro → San José (12,3 km)">
-	<Sp2Shell extraCss={[etapasSp2CssUrl]}>
-		<header class="sp2-etapaHeader header">
-			<div class="logo-container">
-				<a href="/" aria-label="Ir a inicio">
-					<img src="/sendapirata_html/logo.webp" alt="Senda Pirata" class="logo-img" loading="eager" decoding="async" />
-				</a>
-			</div>
-			<p class="sp2-etapaBadge">Etapa 04</p>
-			<h1 class="main-title">El Anillo Defensivo</h1>
-			<p class="sp2-etapaRoute">La Isleta del Moro → San José · 12,3 km</p>
-		</header>
+	<Sp2Shell>
+		<Cabecera etapa={4}
+			class="text-center mb-10"
+			containerClass=""
+			showBreadcrumb={true}
+			logoSrc="/images/logo.webp"
+			logoAlt="Senda Pirata Logo"
+			logoClass="block object-contain max-w-full max-h-[120px] mx-auto"
+		/>
 
-		<div class="sp2-stageGrid">
-			<aside class="sp2-mapCol">
-				<div class="sp2-mapWrap">
-					<div class="sp2-mapBox">
+		<div class="relative w-full mb-[30px] overflow-hidden rounded-[25px]">
+			<img
+				class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover"
+				src="/images/fondo_playa.webp"
+				alt="Paisaje costero de Cabo de Gata"
+			/>
+			<div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
+			<div class="absolute inset-0 flex items-end">
+				<div class="w-full p-6 md:p-10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.12em] bg-black/80 text-white w-fit px-4 py-1 rounded-full mb-3">
+						Etapa 04
+					</p>
+					<h1 class="font-bold text-white text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
+						El Anillo Defensivo
+					</h1>
+					<p class="text-base text-white/90 mt-2">
+						La Isleta del Moro → San José · 12,3 km
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-1 gap-[22px] mt-2 lg:[grid-template-columns:3fr_2fr] lg:gap-[26px] lg:items-start">
+			<aside class="lg:sticky lg:top-6">
+				<div class="overflow-hidden rounded-[20px] bg-white border border-black/10">
+					<div class="h-[360px] lg:h-[calc(100vh-160px)] lg:min-h-[520px] lg:max-h-[860px]">
 						<Mapa minHeight="100%" routes={[{ id: "ruta-04", url: "/geojson/04.geojson", color: "#4f6b4a" }]} fitPadding={20} />
 					</div>
 				</div>
-				<p class="sp2-tip">
+				<p class="mt-2.5 text-[12px] text-black/65">
 					<strong>Tip:</strong> entra en modo "full" para activar el GPS.
 				</p>
 			</aside>
 
-			<section class="sp2-infoGrid">
-				<div data-audio-player>
+			<section class="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
+				<div data-audio-player class="col-span-full">
 					<AudioPlayer minimal={true} src="/descargas/04.mp3" title="Etapa 04" subtitle="El Anillo Defensivo" />
 				</div>
 
-				<div class="sp2-infoCard">
-					<p class="sp2-infoK">Distancia</p>
-					<p class="sp2-infoV">12,3 km</p>
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Distancia</p>
+					<p class="mt-1.5 text-[18px] font-bold text-black">12,3 km</p>
 				</div>
-				<div class="sp2-infoCard">
-					<p class="sp2-infoK">Duración estimada</p>
-					<p class="sp2-infoV">3 horas</p>
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Duración estimada</p>
+					<p class="mt-1.5 text-[18px] font-bold text-black">3 horas</p>
 				</div>
-				<div class="sp2-infoCard">
-					<p class="sp2-infoK">Dificultad</p>
-					<p class="sp2-infoV">Media-Baja</p>
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Dificultad</p>
+					<p class="mt-1.5 text-[18px] font-bold text-black">Media-Baja</p>
 				</div>
-				<div class="sp2-infoCard">
-					<p class="sp2-infoK">Inicio</p>
-					<p class="sp2-infoV">La Isleta del Moro</p>
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Inicio</p>
+					<p class="mt-1.5 text-[18px] font-bold text-black">La Isleta del Moro</p>
 				</div>
-				<div class="sp2-infoCard">
-					<p class="sp2-infoK">Final</p>
-					<p class="sp2-infoV">San José</p>
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Final</p>
+					<p class="mt-1.5 text-[18px] font-bold text-black">San José</p>
 				</div>
-				<div class="sp2-infoCard">
-					<p class="sp2-infoK">Descargas</p>
-					<div class="sp2-downloads">
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
+					<div class="mt-2.5 flex flex-wrap gap-[14px]">
 						<a href="/descargas/04.mp3" aria-label="Audio (MP3)">
-							<img src="/sendapirata_html/mp3.webp" alt="MP3" class="sp2-downloadIcon" />
+							<img src="/images/mp3.webp" alt="MP3" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
 						</a>
 						<a href="/descargas/04.pdf" download aria-label="PDF">
-							<img src="/sendapirata_html/pdf.webp" alt="PDF" class="sp2-downloadIcon" />
+							<img src="/images/pdf.webp" alt="PDF" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
 						</a>
 						<a href="/descargas/04.gpx" download aria-label="GPX">
-							<img src="/sendapirata_html/gpx.webp" alt="GPX" class="sp2-downloadIcon" />
+							<img src="/images/gpx.webp" alt="GPX" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
 						</a>
 					</div>
 				</div>
 			</section>
 		</div>
 
-		<section class="sp2-prose">
-			<h2 class="sp2-sectionTitle">Relato</h2>
+		<section class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
+			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Relato</h2>
 			<p>
 				Dejas atrás la Isleta, el antiguo escondite pirata, para ascender a la línea de fuego. En este tramo, te conviertes en parte del sistema de vigilancia que
 				protegía los fondeaderos más codiciados: la ensenada del Sollarete, hoy San José.
@@ -87,26 +108,26 @@ import etapasSp2CssUrl from '../../styles/etapas-sp2.css?url';
 			</p>
 		</section>
 
-		<section class="sp2-prose">
-			<h2 class="sp2-sectionTitle">Puntos de interés</h2>
-			<div class="sp2-pois">
-				<article class="sp2-poiCard">
-					<h3>Batería defensiva de San Felipe (Los Escullos)</h3>
-					<p>
+		<section>
+			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Puntos de interés</h2>
+			<div class="mt-3 grid gap-[14px]">
+				<article class="rounded-[18px] bg-white p-[18px] border border-black/10">
+					<h3 class="text-[18px] font-bold text-black">Batería defensiva de San Felipe (Los Escullos)</h3>
+					<p class="mt-2.5 leading-[1.7] text-[#333]">
 						Batería costera del siglo XVIII diseñada para impedir que los navíos piratas se aproximaran y desembarcaran en la bahía de los Escullos. Contaba con foso,
 						puente levadizo y cuarteles.
 					</p>
 				</article>
-				<article class="sp2-poiCard">
-					<h3>Torre de Cala Higuera</h3>
-					<p>
+				<article class="rounded-[18px] bg-white p-[18px] border border-black/10">
+					<h3 class="text-[18px] font-bold text-black">Torre de Cala Higuera</h3>
+					<p class="mt-2.5 leading-[1.7] text-[#333]">
 						Situada en un cerro a 224 metros, esta torre del siglo XVIII era un “ojo en el cielo” que controlaba los movimientos en las grandes bahías. Su función era la
 						comunicación con otras torres, como Vela Blanca (Etapa 05).
 					</p>
 				</article>
-				<article class="sp2-poiCard">
-					<h3>El Fuerte (escondido) de San José</h3>
-					<p>
+				<article class="rounded-[18px] bg-white p-[18px] border border-black/10">
+					<h3 class="text-[18px] font-bold text-black">El Fuerte (escondido) de San José</h3>
+					<p class="mt-2.5 leading-[1.7] text-[#333]">
 						Bajo el actual cuartel de la Guardia Civil se encuentran los restos del histórico Castillo de San José (1733–1735), levantado para proteger este puerto
 						natural y consolidar núcleos de población estables.
 					</p>
@@ -114,30 +135,10 @@ import etapasSp2CssUrl from '../../styles/etapas-sp2.css?url';
 			</div>
 		</section>
 
-		<section class="sp2-prose">
-			<h2 class="sp2-sectionTitle">Contexto histórico</h2>
-			<p>
-				Durante más de dos siglos, la costa del actual Parque Natural Cabo de Gata-Níjar fue una frontera peligrosa. Los ataques corsarios obligaron a levantar un
-				sistema defensivo continuo basado en torres, castillos y vigilancia permanente.
-			</p>
-			<p>
-				La Senda Pirata recupera hoy ese trazado histórico, transformando antiguos espacios de miedo en un itinerario cultural y paisajístico.
-			</p>
-		</section>
-
-		<section class="sp2-prose">
-			<h2 class="sp2-sectionTitle">La experiencia Senda Pirata</h2>
-			<p>
-				Este recorrido no es solo una ruta de senderismo. Es una forma de caminar el paisaje con otra mirada: la de quienes vigilaban el horizonte, esperaban señales
-				desde las torres y vivían pendientes del mar.
-			</p>
-			<p>
-				Sella tu Cartilla del Vigía de senderista-pirata en los establecimientos colaboradores y continúa la Senda Pirata del Cabo de Gata por las siguientes etapas.
-			</p>
-		</section>
+		<EtapaCierre iconWidthPx={100} />
 
 		<EtapaNav current={4} />
-		<Sp2Footer />
+		<Pie />
 	</Sp2Shell>
 </Layout>
 

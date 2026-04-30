@@ -2,203 +2,164 @@
 import Layout from "../layouts/Layout.astro";
 import AudioPlayer from "../components/AudioPlayer.astro";
 import Cabecera from "../components/Cabecera.astro";
-import index2CssUrl from "../styles/index2.css?url";
+import Sp2Shell from "../components/Sp2Shell.astro";
+import Pie from "../components/Pie.astro";
 ---
 
 <Layout
   title="Senda Pirata"
   description="Ruta de cinco etapas por la costa de Cabo de Gata-Níjar."
 >
-  <div class="sp2">
-    <link rel="stylesheet" href={index2CssUrl} />
-    <link rel="stylesheet" href="https://use.typekit.net/pbz8sah.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
+  <Sp2Shell>
+    <Cabecera
+      class="text-center mb-10"
+      containerClass="flex items-center justify-center"
+      showBreadcrumb={false}
+      logoSrc="/images/logo.webp"
+      logoAlt="Senda Pirata Logo"
+      logoClass="block object-contain max-w-full max-h-[100px]"
     />
 
-    <div class="container">
-      <div class="card">
-        <Cabecera
-          class="header"
-          containerClass="logo-container"
-          showBreadcrumb={false}
-          logoSrc="/sendapirata_html/logo.webp"
-          logoAlt="Senda Pirata Logo"
-          logoClass="logo-img"
-        />
+    <div class="w-full mb-[30px] overflow-hidden rounded-[25px]">
+      <img class="w-full h-auto block" src="/images/fondo_playa.webp" alt="Paisaje costero de Cabo de Gata" />
+    </div>
 
-        <div class="main-image">
-          <img src="/sendapirata_html/fondo_playa.webp" alt="Paisaje costero de Cabo de Gata" />
+    <h2 class="text-center font-bold text-black text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
+      Comienza la Senda Pirata
+    </h2>
+
+    <div class="mt-10 mb-10 max-w-[650px] mx-auto flex flex-col md:flex-row items-start gap-5">
+      <div class="shrink-0">
+        <a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio" class="inline-block no-underline">
+          <img class="w-[60px] h-auto" src="/images/mp3.webp" alt="Reproducir audio MP3" />
+        </a>
+      </div>
+      <div class="flex-1">
+        <p class="text-base leading-relaxed text-[#333] text-justify">
+          Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes de iniciar el recorrido.
+        </p>
+        <div class="mt-4">
+          <AudioPlayer minimal={true} src="/descargas/intro.mp3" title="Audio introductorio" subtitle="Activa el contexto antes de zarpar" />
         </div>
-
-        <h2 class="main-title">Comienza la Senda Pirata</h2>
-
-        <div class="intro-section">
-          <div class="intro-icon">
-            <a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio">
-              <img src="/sendapirata_html/mp3.webp" alt="Reproducir audio MP3" />
-            </a>
-          </div>
-          <div class="intro-text">
-            <p>
-              Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes de iniciar el recorrido.
-            </p>
-            <div style="margin-top: 16px;">
-              <AudioPlayer
-                minimal={true}
-                src="/descargas/intro.mp3"
-                title="Audio introductorio"
-                subtitle="Activa el contexto antes de zarpar"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="stages-container" aria-label="Etapas">
-          <div class="stage-item">
-            <a href="/etapas/etapa-01" aria-label="Ir a Etapa 01">
-              <img src="/sendapirata_html/01.webp" alt="Etapa 01" class="stage-seal" />
-            </a>
-            <div class="stage-header">
-              <div class="stage-content">
-                <h3 class="stage-title">
-                  <a class="sp2-stageLink" href="/etapas/etapa-01">El Guardián del Horizonte</a>
-                </h3>
-                <p class="stage-route">Agua Amarga &gt; Las Negras · 13 km</p>
-              </div>
-              <div class="stage-downloads">
-                <a href="/descargas/01.mp3">
-                  <img src="/sendapirata_html/mp3.webp" alt="Reproducir MP3" class="download-icon" />
-                </a>
-                <a href="/descargas/01.pdf" download>
-                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
-                </a>
-                <a href="/descargas/01.gpx" download>
-                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="stage-item">
-            <a href="/etapas/etapa-02" aria-label="Ir a Etapa 02">
-              <img src="/sendapirata_html/02.webp" alt="Etapa 02" class="stage-seal" />
-            </a>
-            <div class="stage-header">
-              <div class="stage-content">
-                <h3 class="stage-title">
-                  <a class="sp2-stageLink" href="/etapas/etapa-02">La Custodia del Alumbre y la Protección de los Mineros</a>
-                </h3>
-                <p class="stage-route">Las Negras &gt; Rodalquilar · 17 km</p>
-              </div>
-              <div class="stage-downloads">
-                <a href="/descargas/02.pdf" download>
-                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
-                </a>
-                <a href="/descargas/02.gpx" download>
-                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="stage-item">
-            <a href="/etapas/etapa-03" aria-label="Ir a Etapa 03">
-              <img src="/sendapirata_html/03.webp" alt="Etapa 03" class="stage-seal" />
-            </a>
-            <div class="stage-header">
-              <div class="stage-content">
-                <h3 class="stage-title">
-                  <a class="sp2-stageLink" href="/etapas/etapa-03">Camino del Botín y la Indefensión del Interior</a>
-                </h3>
-                <p class="stage-route">Rodalquilar &gt; La Isleta del Moro · 14,2 km</p>
-              </div>
-              <div class="stage-downloads">
-                <a href="/descargas/03.pdf" download>
-                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
-                </a>
-                <a href="/descargas/03.gpx" download>
-                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="stage-item">
-            <a href="/etapas/etapa-04" aria-label="Ir a Etapa 04">
-              <img src="/sendapirata_html/04.webp" alt="Etapa 04" class="stage-seal" />
-            </a>
-            <div class="stage-header">
-              <div class="stage-content">
-                <h3 class="stage-title">
-                  <a class="sp2-stageLink" href="/etapas/etapa-04">El Anillo Defensivo</a>
-                </h3>
-                <p class="stage-route">La Isleta del Moro &gt; San José · 12,3 km</p>
-              </div>
-              <div class="stage-downloads">
-                <a href="/descargas/04.pdf" download>
-                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
-                </a>
-                <a href="/descargas/04.gpx" download>
-                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="stage-item">
-            <a href="/etapas/etapa-05" aria-label="Ir a Etapa 05">
-              <img src="/sendapirata_html/05.webp" alt="Etapa 05" class="stage-seal" />
-            </a>
-            <div class="stage-header">
-              <div class="stage-content">
-                <h3 class="stage-title">
-                  <a class="sp2-stageLink" href="/etapas/etapa-05">El Fin de la Frontera</a>
-                </h3>
-                <p class="stage-route">San José &gt; La Fabriquilla (Faro) · 15,12 km</p>
-              </div>
-              <div class="stage-downloads">
-                <a href="/descargas/05.pdf" download>
-                  <img src="/sendapirata_html/pdf.webp" alt="PDF" class="download-icon" />
-                </a>
-                <a href="/descargas/05.gpx" download>
-                  <img src="/sendapirata_html/gpx.webp" alt="GPX" class="download-icon" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <footer class="footer">
-          <div class="footer-logo">
-            <img src="/sendapirata_html/asemparna.webp" alt="ASEMPARNA" />
-          </div>
-          <div class="footer-logo">
-            <img src="/sendapirata_html/ayuntamiento.webp" alt="Ayuntamiento de Níjar" />
-          </div>
-        </footer>
       </div>
     </div>
 
-  </div>
+    <div class="mb-10" aria-label="Etapas">
+      <div class="py-[25px] border-b border-black flex flex-row items-start md:items-center gap-[15px] md:gap-[25px]">
+        <a href="/etapas/etapa-01" aria-label="Ir a Etapa 01">
+          <img src="/images/01.webp" alt="Etapa 01" class="shrink-0 object-contain w-[70px] h-[70px] md:w-20 md:h-20" />
+        </a>
+        <div class="flex flex-col md:flex-row flex-1 gap-2.5 md:gap-[25px] items-start md:items-center">
+          <div class="w-full flex-1">
+            <h3 class="text-[22px] font-bold text-black leading-[1.3] mb-2.5">
+              <a class="text-[inherit] no-underline hover:underline" href="/etapas/etapa-01">El Guardián del Horizonte</a>
+            </h3>
+            <p class="text-base text-[#333]">Agua Amarga &gt; Las Negras · 13 km</p>
+          </div>
+          <div class="flex items-center gap-[18px] shrink-0">
+            <a href="/descargas/01.mp3">
+              <img src="/images/mp3.webp" alt="Reproducir MP3" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+            <a href="/descargas/01.pdf" download>
+              <img src="/images/pdf.webp" alt="PDF" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+            <a href="/descargas/01.gpx" download>
+              <img src="/images/gpx.webp" alt="GPX" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+          </div>
+        </div>
+      </div>
 
-  <style>
-    .sp2 {
-      width: 100%;
-    }
+      <div class="py-[25px] border-b border-black flex flex-row items-start md:items-center gap-[15px] md:gap-[25px]">
+        <a href="/etapas/etapa-02" aria-label="Ir a Etapa 02">
+          <img src="/images/02.webp" alt="Etapa 02" class="shrink-0 object-contain w-[70px] h-[70px] md:w-20 md:h-20" />
+        </a>
+        <div class="flex flex-col md:flex-row flex-1 gap-2.5 md:gap-[25px] items-start md:items-center">
+          <div class="w-full flex-1">
+            <h3 class="text-[22px] font-bold text-black leading-[1.3] mb-2.5">
+              <a class="text-[inherit] no-underline hover:underline" href="/etapas/etapa-02">La Custodia del Alumbre y la Protección de los Mineros</a>
+            </h3>
+            <p class="text-base text-[#333]">Las Negras &gt; Rodalquilar · 17 km</p>
+          </div>
+          <div class="flex items-center gap-[18px] shrink-0">
+            <a href="/descargas/02.pdf" download>
+              <img src="/images/pdf.webp" alt="PDF" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+            <a href="/descargas/02.gpx" download>
+              <img src="/images/gpx.webp" alt="GPX" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+          </div>
+        </div>
+      </div>
 
-    /* Links de etapa sin estilos de enlace */
-    .sp2-stageLink {
-      color: inherit;
-      text-decoration: none;
-    }
+      <div class="py-[25px] border-b border-black flex flex-row items-start md:items-center gap-[15px] md:gap-[25px]">
+        <a href="/etapas/etapa-03" aria-label="Ir a Etapa 03">
+          <img src="/images/03.webp" alt="Etapa 03" class="shrink-0 object-contain w-[70px] h-[70px] md:w-20 md:h-20" />
+        </a>
+        <div class="flex flex-col md:flex-row flex-1 gap-2.5 md:gap-[25px] items-start md:items-center">
+          <div class="w-full flex-1">
+            <h3 class="text-[22px] font-bold text-black leading-[1.3] mb-2.5">
+              <a class="text-[inherit] no-underline hover:underline" href="/etapas/etapa-03">Camino del Botín y la Indefensión del Interior</a>
+            </h3>
+            <p class="text-base text-[#333]">Rodalquilar &gt; La Isleta del Moro · 14,2 km</p>
+          </div>
+          <div class="flex items-center gap-[18px] shrink-0">
+            <a href="/descargas/03.pdf" download>
+              <img src="/images/pdf.webp" alt="PDF" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+            <a href="/descargas/03.gpx" download>
+              <img src="/images/gpx.webp" alt="GPX" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+          </div>
+        </div>
+      </div>
 
-    .sp2-stageLink:hover {
-      text-decoration: underline;
-    }
-  </style>
+      <div class="py-[25px] border-b border-black flex flex-row items-start md:items-center gap-[15px] md:gap-[25px]">
+        <a href="/etapas/etapa-04" aria-label="Ir a Etapa 04">
+          <img src="/images/04.webp" alt="Etapa 04" class="shrink-0 object-contain w-[70px] h-[70px] md:w-20 md:h-20" />
+        </a>
+        <div class="flex flex-col md:flex-row flex-1 gap-2.5 md:gap-[25px] items-start md:items-center">
+          <div class="w-full flex-1">
+            <h3 class="text-[22px] font-bold text-black leading-[1.3] mb-2.5">
+              <a class="text-[inherit] no-underline hover:underline" href="/etapas/etapa-04">El Anillo Defensivo</a>
+            </h3>
+            <p class="text-base text-[#333]">La Isleta del Moro &gt; San José · 12,3 km</p>
+          </div>
+          <div class="flex items-center gap-[18px] shrink-0">
+            <a href="/descargas/04.pdf" download>
+              <img src="/images/pdf.webp" alt="PDF" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+            <a href="/descargas/04.gpx" download>
+              <img src="/images/gpx.webp" alt="GPX" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-[25px] flex flex-row items-start md:items-center gap-[15px] md:gap-[25px]">
+        <a href="/etapas/etapa-05" aria-label="Ir a Etapa 05">
+          <img src="/images/05.webp" alt="Etapa 05" class="shrink-0 object-contain w-[70px] h-[70px] md:w-20 md:h-20" />
+        </a>
+        <div class="flex flex-col md:flex-row flex-1 gap-2.5 md:gap-[25px] items-start md:items-center">
+          <div class="w-full flex-1">
+            <h3 class="text-[22px] font-bold text-black leading-[1.3] mb-2.5">
+              <a class="text-[inherit] no-underline hover:underline" href="/etapas/etapa-05">El Fin de la Frontera</a>
+            </h3>
+            <p class="text-base text-[#333]">San José &gt; La Fabriquilla (Faro) · 15,12 km</p>
+          </div>
+          <div class="flex items-center gap-[18px] shrink-0">
+            <a href="/descargas/05.pdf" download>
+              <img src="/images/pdf.webp" alt="PDF" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+            <a href="/descargas/05.gpx" download>
+              <img src="/images/gpx.webp" alt="GPX" class="block w-10 h-auto cursor-pointer transition-transform hover:scale-110" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Pie class="mt-10 pt-[30px] border-t-2 border-[#ddd]" containerClass="p-0" />
+  </Sp2Shell>
 </Layout>
 
