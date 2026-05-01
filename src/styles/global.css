@@ -29,7 +29,7 @@ body {
 }
 
 body {
-  background: #ffffff;
+  background-color: #ffffff;
   color: var(--sp-text);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
