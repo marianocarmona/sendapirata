@@ -26,7 +26,7 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<div class="relative w-full mb-[30px] overflow-hidden rounded-[25px]">
 			<img
 				class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover"
-				src="/images/fondo_playa.webp"
+				src="/images/fondo-01.webp"
 				alt="Paisaje costero de Cabo de Gata"
 			/>
 			<div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
@@ -115,19 +115,33 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<section>
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Puntos de interés</h2>
 			<div class="mt-3 grid gap-[14px]">
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10">
-					<h3 class="text-[18px] font-bold text-black">Torre de Mesa Roldán</h3>
-					<p class="mt-2.5 leading-[1.7] text-[#333]">
-						Función estratégica: torre construida en el siglo XVIII. Su diseño buscaba impedir el desembarco masivo. Obsérvala desde la distancia: su posición le
-						daba control visual absoluto.
-					</p>
+				<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
+					<img
+						src="/images/01-01.webp"
+						alt="Torre de Mesa Roldán"
+						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
+					/>
+					<div class="min-w-0 flex flex-col justify-center">
+						<h3 class="text-[18px] font-bold text-black">Torre de Mesa Roldán</h3>
+						<p class="mt-2.5 leading-[1.7] text-[#333]">
+							Función estratégica: torre construida en el siglo XVIII. Su diseño buscaba impedir el desembarco masivo. Obsérvala desde la distancia: su posición le
+							daba control visual absoluto.
+						</p>
+					</div>
 				</article>
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10">
-					<h3 class="text-[18px] font-bold text-black">Cala San Pedro y el Tesoro del Agua</h3>
-					<p class="mt-2.5 leading-[1.7] text-[#333]">
-						La paz de esta cala esconde una intensa lucha. Tu camino te lleva hasta el Castillo de San Pedro, cuyo objetivo era custodiar la fuente de agua dulce.
-						Los corsarios, tras días de travesía, venían aquí a reabastecerse.
-					</p>
+				<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
+					<img
+						src="/images/01-02.webp"
+						alt="Cala San Pedro y el Tesoro del Agua"
+						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
+					/>
+					<div class="min-w-0 flex flex-col justify-center">
+						<h3 class="text-[18px] font-bold text-black">Cala San Pedro y el Tesoro del Agua</h3>
+						<p class="mt-2.5 leading-[1.7] text-[#333]">
+							La paz de esta cala esconde una intensa lucha. Tu camino te lleva hasta el Castillo de San Pedro, cuyo objetivo era custodiar la fuente de agua dulce.
+							Los corsarios, tras días de travesía, venían aquí a reabastecerse.
+						</p>
+					</div>
 				</article>
 			</div>
 		</section>
