@@ -65,10 +65,6 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 					<p class="mt-1.5 text-[18px] font-bold text-black">17 km</p>
 				</div>
 				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Duración estimada</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">4 horas y media</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
 					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Dificultad</p>
 					<p class="mt-1.5 text-[18px] font-bold text-black">Media-Alta</p>
 				</div>
@@ -81,11 +77,17 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 					<p class="mt-1.5 text-[18px] font-bold text-black">Rodalquilar</p>
 				</div>
 				<div class="rounded-[18px] bg-white p-4 border border-black/10">
+					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Duración estimada</p>
+					<p class="mt-1.5 text-[18px] font-bold text-black">4 horas y media</p>
+				</div>
+				<div class="rounded-[18px] bg-white p-4 border border-black/10">
 					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
 					<div class="mt-2.5 flex flex-wrap gap-[14px]">
-						<a href="/descargas/02.mp3" aria-label="Audio (MP3)">
-							<img src="/images/mp3.webp" alt="MP3" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
+						<!--
+							<a href="/descargas/02.mp3" aria-label="Audio (MP3)">
+								<img src="/images/mp3.webp" alt="MP3" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
+							</a>
+						-->
 						<a href="/descargas/02.pdf" download aria-label="PDF">
 							<img src="/images/pdf.webp" alt="PDF" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
 						</a>
@@ -108,7 +110,7 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		</section>
 
 		<section>
-			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Puntos de interés</h2>
+			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Los tesoros escondidos</h2>
 			<div class="mt-3 grid gap-[14px]">
 				<article class="rounded-[18px] bg-white p-[18px] border border-black/10	flex flex-col sm:flex-row sm:items-center gap-4	">
 					<img
@@ -164,15 +166,21 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 			</div>
 		</section>
 
-		<section class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
-			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Paisaje minero</h2>
-			<p>
-				Mientras caminas hacia Rodalquilar, verás ruinas de antiguas explotaciones: recordatorio constante de la importancia económica del lugar. Los corsarios no
-				solo buscaban cautivos; la riqueza tangible de la tierra era un imán, y el Castillo de San Ramón fue la respuesta para protegerla.
-			</p>
+		<section class="mt-10 lg:flex lg:items-start lg:gap-8 bg-amber-100 p-8 rounded-2xl">
+			<div class="w-[100px] lg:shrink-0">
+				<img
+					src="/images/advertencia.svg"
+					alt="Advertencia del vigía"
+					class="mx-auto my-6 h-24 lg:mx-0 lg:my-0 lg:h-auto w-[100px]"
+				/>
+			</div>
+			<div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
+				<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">Advertencia del vigía</h2>
+				<p>Este territorio fue custodiado para proteger un bien valioso. Hoy su mayor riqueza es el paisaje que atraviesas. Camina con respeto, no abandones residuos, no recojas piedras, plantas u otros elementos naturales y mantente siempre en los senderos autorizados. Tu paso responsable contribuye a conservar un espacio único, el Parque Natural Cabo de Gata-Níjar.</p>
+			</div>
 		</section>
 
-		<EtapaCierre iconWidthPx={100} />
+		<EtapaCierre />
 
 		<EtapaNav current={2} />
 		<Pie />

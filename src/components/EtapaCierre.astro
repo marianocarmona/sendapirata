@@ -1,53 +1,19 @@
 ---
-interface Props {
-  /** Ancho de la columna de iconos (desktop) */
-  iconWidthPx?: number;
-}
-
-const { iconWidthPx = 100 } = Astro.props as Props;
-const iconWidth = `${iconWidthPx}px`;
 ---
-
 <section class="mt-10 lg:flex lg:items-start lg:gap-8">
-  <div class="w-full lg:shrink-0" style={{ width: iconWidth }}>
+  <div class="w-[100px] lg:shrink-0">
     <img
-      src="/images/barco.svg"
-      alt="Contexto histórico"
-      class="mx-auto my-6 h-24 w-auto lg:mx-0 lg:my-0 lg:h-auto"
-      style={{ width: iconWidth }}
-    />
-  </div>
-  <div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
-    <h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">Contexto histórico</h2>
-    <p>
-      Durante más de dos siglos, la costa del actual Parque Natural Cabo de Gata-Níjar fue una frontera peligrosa. Los ataques corsarios obligaron a levantar un
-      sistema defensivo continuo basado en torres, castillos y vigilancia permanente.
-    </p>
-    <p>La Senda Pirata recupera hoy ese trazado histórico, transformando antiguos espacios de miedo en un itinerario cultural y paisajístico.</p>
-  </div>
-</section>
-
-<section class="mt-10 lg:flex lg:items-start lg:gap-8">
-  <div class="w-full lg:shrink-0" style={{ width: iconWidth }}>
-    <img
-      src="/images/bandera.svg"
+      src="/images/senda.svg"
       alt="La experiencia Senda Pirata"
-      class="mx-auto my-6 h-24 w-auto lg:mx-0 lg:my-0 lg:h-auto"
-      style={{ width: iconWidth }}
+      class="mx-auto my-6 h-24 w-[100px] lg:mx-0 lg:my-0 lg:h-auto"
     />
   </div>
-  <div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
-    <h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">La experiencia Senda Pirata</h2>
-    <p>
-      Este recorrido no es solo una ruta de senderismo. Es una forma de caminar el paisaje con otra mirada: la de quienes vigilaban el horizonte, esperaban señales
-      desde las torres y vivían pendientes del mar.
-    </p>
-    <p>
-      Sella tu Cartilla del Vigía de senderista-pirata en los establecimientos colaboradores y continúa la Senda Pirata del Cabo de Gata por las siguientes etapas.
-    </p>
+  <div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3 [&>p]:italic">
+    <p>La Senda Pirata del Cabo de Gata presenta para cada etapa un grado de dificultad orientativo, definido en función de la distancia, el desnivel y el tipo de terreno.</p>
+    <p>La realización del recorrido es una actividad de carácter voluntario que implica esfuerzo físico y se desarrolla en un entorno natural. Cada participante es responsable de evaluar previamente si sus condiciones físicas, experiencia y preparación son adecuadas para afrontar la etapa elegida.</p>
+    <p>Antes de iniciar la ruta, se recomienda revisar el track GPX, el perfil altimétrico y las condiciones del terreno, así como consultar la previsión meteorológica.</p>
   </div>
 </section>
-
 <section class="mt-10 lg:flex lg:items-center gap-4 bg-[#A13B3A] px-10 py-4 rounded-2xl">
   <div class="w-full lg:shrink-0" style={{ width: '150px' }}>
     <img
