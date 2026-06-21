@@ -1,0 +1,16 @@
+---
+import type { SchemaNode } from "../data/structured-data";
+
+interface Props {
+  data?: SchemaNode | SchemaNode[] | null;
+}
+
+const { data = null } = Astro.props as Props;
+const nodes = Array.isArray(data) ? data : data ? [data] : [];
+const serializedData =
+  nodes.length === 0
+    ? null
+    : JSON.stringify(nodes.length === 1 ? nodes[0] : nodes).replace(/</g, "\\u003c");
+---
+
+{serializedData ? <script type="application/ld+json" set:html={serializedData}></script> : null}

@@ -59,9 +59,7 @@ Estas reglas describen convenciones ya presentes en el código. No son objetivos
   - `Sp2Shell`
   - `Cabecera`
   - hero visual con imagen `/images/fondo-XX.webp`
-  - mapa con `Mapa`
-  - reproductor con `AudioPlayer`
-  - bloques de datos de la etapa
+  - `EtapaOverview` para mapa con `Mapa`, reproductor(es) con `AudioPlayer`, descargas y bloques de datos de la etapa
   - secciones de contenido
   - `EtapaCierre`
   - `EtapaNav`

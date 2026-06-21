@@ -9,12 +9,33 @@ import EtapaHero from '../../components/EtapaHero.astro';
 import EtapaOverview from '../../components/EtapaOverview.astro';
 import EtapaTreasureCard from '../../components/EtapaTreasureCard.astro';
 import EtapaWarning from '../../components/EtapaWarning.astro';
+import JsonLd from '../../components/JsonLd.astro';
 import { getEtapa } from '../../data/etapas';
+import { getSiteBase } from '../../data/seo-urls';
+import {
+	buildBreadcrumbListSchema,
+	buildEtapaSchemas,
+	type SchemaNode,
+} from '../../data/structured-data';
 
 const etapa = getEtapa(4);
+const pagePath = Astro.url.pathname;
+const site = getSiteBase(Astro.site, Astro.url);
+const breadcrumbSchema = buildBreadcrumbListSchema(
+	[
+		{ name: 'Inicio', path: '/' },
+		{ name: 'Etapas', path: '/etapas' },
+		{ name: `Etapa ${etapa.idLabel}`, path: pagePath },
+	],
+	{ site },
+);
+const etapaSchemas = [...buildEtapaSchemas(etapa, { site }), breadcrumbSchema].filter(
+	(schema): schema is SchemaNode => Boolean(schema),
+);
 ---
 
 <Layout title={etapa.layoutTitle} description={etapa.layoutDescription}>
+	<JsonLd slot="head" data={etapaSchemas} />
 	<Sp2Shell>
 		<Cabecera etapa={etapa.id}
 			class="text-center mb-10"

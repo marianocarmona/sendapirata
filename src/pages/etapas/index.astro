@@ -5,10 +5,51 @@ import Pie from '../../components/Pie.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import EtapaCard from '../../components/EtapaCard.astro';
 import EtapasIntro from '../../components/EtapasIntro.astro';
+import JsonLd from '../../components/JsonLd.astro';
 import { etapas } from '../../data/etapas';
+import { getSiteBase } from '../../data/seo-urls';
+import {
+	buildBreadcrumbListSchema,
+	buildCollectionPageSchema,
+	buildEtapaItemListSchema,
+	type SchemaNode,
+} from '../../data/structured-data';
+
+const pageTitle = 'Etapas — Senda Pirata';
+const pageDescription = 'Información y enlaces a todas las etapas de la Senda Pirata.';
+const pagePath = Astro.url.pathname;
+const site = getSiteBase(Astro.site, Astro.url);
+const breadcrumbSchema = buildBreadcrumbListSchema(
+	[
+		{ name: 'Inicio', path: '/' },
+		{ name: 'Etapas', path: pagePath },
+	],
+	{ site },
+);
+const listingSchemas = [
+	buildCollectionPageSchema(
+		{
+			name: pageTitle,
+			description: pageDescription,
+			path: pagePath,
+		},
+		{ site },
+	),
+	buildEtapaItemListSchema(
+		{ site },
+		{
+			name: pageTitle,
+			description: pageDescription,
+			path: pagePath,
+		},
+	),
+	breadcrumbSchema,
+].filter((schema): schema is SchemaNode => Boolean(schema));
 ---
 
-<Layout title="Etapas — Senda Pirata" description="Información y enlaces a todas las etapas de la Senda Pirata.">
+
+<Layout title={pageTitle} description={pageDescription}>
+	<JsonLd slot="head" data={listingSchemas} />
 	<Sp2Shell>
 		<Cabecera />
 

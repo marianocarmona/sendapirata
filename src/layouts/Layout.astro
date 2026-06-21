@@ -3,14 +3,17 @@ import '../styles/global.css';
 import { SEO } from "astro-seo";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import { SITE_NAME, SITE_DESCRIPTION, SOCIAL_IMAGE_PATH } from "../data/site";
+import { getSiteBase, toAbsoluteUrl, toCanonicalUrl } from "../data/seo-urls";
+
 interface Props {
   title: string;
   description?: string;
 }
-const { title, description } = Astro.props;
-const siteUrl = Astro.site ?? new URL(Astro.url.origin);
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
-const socialImageUrl = new URL(SOCIAL_IMAGE_PATH, siteUrl).toString();
+
+const { title, description } = Astro.props as Props;
+const siteUrl = getSiteBase(Astro.site, Astro.url);
+const canonicalUrl = toCanonicalUrl(Astro.url.pathname, siteUrl);
+const socialImageUrl = toAbsoluteUrl(SOCIAL_IMAGE_PATH, siteUrl);
 const metaDescription = description ?? SITE_DESCRIPTION;
 ---
 <!doctype html>
@@ -53,8 +56,9 @@ const metaDescription = description ?? SITE_DESCRIPTION;
            { name: "twitter:description", content: metaDescription },
            { property: "og:site_name", content: SITE_NAME },
          ],
-       }}
-     />
+        }}
+      />
+		<slot name="head" />
 	</head>
 	<body>
 		<slot />
