@@ -5,7 +5,10 @@ import EtapaCard from "../components/EtapaCard.astro";
 import EtapasIntro from "../components/EtapasIntro.astro";
 import Sp2Shell from "../components/Sp2Shell.astro";
 import Pie from "../components/Pie.astro";
+import { getImageDimensions } from "../data/image-dimensions";
 import { etapas } from "../data/etapas";
+
+const homeHeroDimensions = getImageDimensions("/images/fondo_playa.webp");
 ---
 
 <Layout
@@ -23,12 +26,18 @@ import { etapas } from "../data/etapas";
     />
 
     <div class="w-full mb-[30px] overflow-hidden rounded-[25px]">
-      <img class="w-full h-auto block" src="/images/fondo_playa.webp" alt="Paisaje costero de Cabo de Gata" />
+      <img
+        class="w-full h-auto block"
+        src="/images/fondo_playa.webp"
+        alt="Paisaje costero de Cabo de Gata"
+        width={homeHeroDimensions.width}
+        height={homeHeroDimensions.height}
+      />
     </div>
 
-		<h2 class="text-center font-bold text-black text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
+		<h1 class="text-center font-bold text-black text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
 		  Comienza la Senda Pirata
-		</h2>
+		</h1>
 
 		<EtapasIntro />
 

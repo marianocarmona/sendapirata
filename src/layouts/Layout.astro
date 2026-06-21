@@ -9,6 +9,7 @@ interface Props {
 }
 const { title, description } = Astro.props;
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const socialImageUrl = new URL(SOCIAL_IMAGE_PATH, siteUrl).toString();
 const metaDescription = description ?? SITE_DESCRIPTION;
 ---
@@ -27,26 +28,25 @@ const metaDescription = description ?? SITE_DESCRIPTION;
 		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-     <SEO
-       title={title}
-       description={metaDescription}
-       openGraph={{
-         basic: {
-           title,
+      <SEO
+        title={title}
+        description={metaDescription}
+        canonical={canonicalUrl}
+        openGraph={{
+          basic: {
+            title,
            type: "website",
            image: socialImageUrl,
          }
        }}
-       twitter={{
-         card: "summary_large_image"
-       }}
-       extend={{
-         // extending the default link tags
-         link: [{ rel: "icon", href: "/favicon.ico" }],
-         // extending the default meta tags
-        meta: [
-           {
-             name: "twitter:image",
+        twitter={{
+          card: "summary_large_image"
+        }}
+        extend={{
+          link: [{ rel: "icon", href: "/favicon.ico" }],
+         meta: [
+            {
+              name: "twitter:image",
              content: socialImageUrl,
            },
            { name: "twitter:title", content: title },
