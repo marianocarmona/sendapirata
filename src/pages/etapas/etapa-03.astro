@@ -1,17 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Mapa from '../../components/Mapa.astro';
 import EtapaNav from '../../components/EtapaNav.astro';
-import AudioPlayer from '../../components/AudioPlayer.astro';
 import Sp2Shell from '../../components/Sp2Shell.astro';
 import Pie from '../../components/Pie.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import EtapaCierre from '../../components/EtapaCierre.astro';
+import EtapaHero from '../../components/EtapaHero.astro';
+import EtapaOverview from '../../components/EtapaOverview.astro';
+import EtapaTreasureCard from '../../components/EtapaTreasureCard.astro';
+import EtapaWarning from '../../components/EtapaWarning.astro';
+import { getEtapa } from '../../data/etapas';
+
+const etapa = getEtapa(3);
 ---
 
-<Layout title="Etapa 03 — Camino del Botín" description="Rodalquilar → La Isleta del Moro (14,2 km)">
+<Layout title={etapa.layoutTitle} description={etapa.layoutDescription}>
 	<Sp2Shell>
-		<Cabecera etapa={3}
+		<Cabecera etapa={etapa.id}
 			class="text-center mb-10"
 			containerClass=""
 			showBreadcrumb={true}
@@ -20,83 +25,8 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 			logoClass="block object-contain max-w-full max-h-[120px] mx-auto"
 		/>
 
-		<div class="relative w-full mb-[30px] overflow-hidden rounded-[25px]">
-			<img
-				class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover"
-				src="/images/fondo-03.webp"
-				alt="Paisaje costero de Cabo de Gata"
-			/>
-			<div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
-			<div class="absolute inset-0 flex items-end">
-				<div class="w-full p-6 md:p-10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.12em] bg-black/80 text-white w-fit px-4 py-1 rounded-full mb-3">
-						Etapa 03
-					</p>
-					<h1 class="font-bold text-white text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
-						Camino del Botín
-					</h1>
-					<p class="text-base text-white/90 mt-2">
-						Rodalquilar → La Isleta del Moro · 14,2 km
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="grid grid-cols-1 gap-[22px] mt-2 lg:[grid-template-columns:3fr_2fr] lg:gap-[26px] lg:items-start">
-			<aside class="lg:sticky lg:top-6">
-				<div class="overflow-hidden rounded-[20px] bg-white border border-black/10">
-					<div class="h-[360px] md:h-[420px] lg:h-[480px]">
-						<Mapa minHeight="100%" routes={[{ id: "ruta-03", url: "/geojson/03.geojson", color: "#8c3b2e" }]} fitPadding={20} />
-					</div>
-				</div>
-				<p class="mt-2.5 text-[12px] text-black/65">
-					<strong>Tip:</strong> entra en modo "full" para activar el GPS.
-				</p>
-			</aside>
-
-			<section class="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
-				<div data-audio-player class="col-span-full">
-					<AudioPlayer minimal={true} src="/descargas/03.mp3" title="Etapa 03" subtitle="Camino del Botín" />
-				</div>
-
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Distancia</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">14,2 km</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Duración estimada</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">4 horas</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Inicio</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">Rodalquilar</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Final</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">La Isleta del Moro</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Dificultad</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">Media-Alta</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
-					<div class="mt-2.5 flex flex-wrap gap-[14px]">
-						<!--
-							<a href="/descargas/03.mp3" aria-label="Audio (MP3)">
-								<img src="/images/mp3.webp" alt="MP3" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-							</a>
-						-->
-						<a href="/descargas/03.pdf" download aria-label="PDF">
-							<img src="/images/pdf.webp" alt="PDF" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
-						<a href="/descargas/03.gpx" download aria-label="GPX">
-							<img src="/images/gpx.webp" alt="GPX" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
-					</div>
-				</div>
-			</section>
-		</div>
+		<EtapaHero etapa={etapa} />
+		<EtapaOverview etapa={etapa} />
 
 		<section class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Relato</h2>
@@ -113,49 +43,13 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<section>
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Los tesoros escondidos</h2>
 			<div class="mt-3 grid gap-[14px]">
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10	flex flex-col sm:flex-row sm:items-center gap-4">
-					<img
-						src="/images/03-01.webp"
-						alt="El Cortijo del Fraile"
-						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
-					/>
-					<div class="min-w-0 flex flex-col justify-center">
-						<h3 class="text-[18px] font-bold text-black">El Cortijo del Fraile</h3>
-						<p class="mt-2.5 leading-[1.7] text-[#333]">
-							Desde la Rellana, la silueta del Cortijo del Fraile te recordará que el peligro no solo estaba en el mar. Fue levantado por frailes Dominicos en el siglo XVIII como parte del esfuerzo de la Corona por colonizar y asegurar el territorio. Sin embargo, su aislamiento, lejos de las grandes fortalezas costeras, lo convertía en un blanco de alto valor para los corsarios que lograban penetrar en el interior buscando el botín, sobre todo, cautivos.
-						</p>
-					</div>
-				</article>
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10	flex flex-col sm:flex-row sm:items-center gap-4">
-					<img
-						src="/images/03-02.webp"
-						alt="La Isleta del Moro"
-						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
-					/>
-					<div class="min-w-0 flex flex-col justify-center">
-						<h3 class="text-[18px] font-bold text-black">La Isleta del Moro</h3>
-						<p class="mt-2.5 leading-[1.7] text-[#333]">
-							Al descender hacia La Isleta, alcanzarás un pequeño puerto natural cuyo nombre lo dice todo. Esta “Isleta del Moro” era conocida históricamente como un punto ideal para la aguada y el escondite de las galeras berberiscas. Aunque hoy es un refugio de pescadores, su geografía la marcó como un punto negro en el mapa de defensa, donde las incursiones se planeaban.
-						</p>
-					</div>
-				</article>
+				{etapa.treasures.map((treasure) => (
+					<EtapaTreasureCard treasure={treasure} />
+				))}
 			</div>
 		</section>
 
-		<section class="mt-10 lg:flex lg:items-start lg:gap-8 bg-amber-100 p-8 rounded-2xl">
-			<div class="w-[100px] lg:shrink-0">
-				<img
-					src="/images/advertencia.svg"
-					alt="Advertencia del vigía"
-					class="mx-auto my-6 h-24 lg:mx-0 lg:my-0 lg:h-auto w-[100px]"
-				/>
-			</div>
-			<div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
-				<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">Advertencia del vigía</h2>
-				<p>Caminas por un paisaje marcado por la historia minera y el esfuerzo humano. Respeta las huellas del pasado: no recojas minerales, piedras ni restos naturales, no accedas a zonas no autorizadas y evita alterar el entorno. Mirar el horizonte también es saber cuándo detenerse para proteger lo que otros cuidaron antes.</p>
-			</div>
-		</section>
-
+		<EtapaWarning paragraphs={etapa.warningParagraphs} />
 
 		<EtapaCierre />
 
@@ -163,4 +57,3 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<Pie />
 	</Sp2Shell>
 </Layout>
-

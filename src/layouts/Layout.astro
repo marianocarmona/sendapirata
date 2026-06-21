@@ -2,11 +2,15 @@
 import '../styles/global.css';
 import { SEO } from "astro-seo";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import { SITE_NAME, SITE_DESCRIPTION, SOCIAL_IMAGE_PATH } from "../data/site";
 interface Props {
   title: string;
   description?: string;
 }
 const { title, description } = Astro.props;
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const socialImageUrl = new URL(SOCIAL_IMAGE_PATH, siteUrl).toString();
+const metaDescription = description ?? SITE_DESCRIPTION;
 ---
 <!doctype html>
 <html lang="es">
@@ -23,33 +27,34 @@ const { title, description } = Astro.props;
 		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-    <SEO
-      title={title}
-      description={description}
-      openGraph={{
-        basic: {
-          title: title,
-          type: "A type.",
-          image: "https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png",
-        }
-      }}
-      twitter={{
-        creator: "@baldboy"
-      }}
-      extend={{
-        // extending the default link tags
-        link: [{ rel: "icon", href: "/favicon.ico" }],
-        // extending the default meta tags
+     <SEO
+       title={title}
+       description={metaDescription}
+       openGraph={{
+         basic: {
+           title,
+           type: "website",
+           image: socialImageUrl,
+         }
+       }}
+       twitter={{
+         card: "summary_large_image"
+       }}
+       extend={{
+         // extending the default link tags
+         link: [{ rel: "icon", href: "/favicon.ico" }],
+         // extending the default meta tags
         meta: [
-          {
-            name: "twitter:image",
-            content: "https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png",
-          },
-          { name: "twitter:title", content: "Tinker Tailor Soldier Spy" },
-          { name: "twitter:description", content: "Agent" },
-        ],
-      }}
-    />
+           {
+             name: "twitter:image",
+             content: socialImageUrl,
+           },
+           { name: "twitter:title", content: title },
+           { name: "twitter:description", content: metaDescription },
+           { property: "og:site_name", content: SITE_NAME },
+         ],
+       }}
+     />
 	</head>
 	<body>
 		<slot />

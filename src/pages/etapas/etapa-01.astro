@@ -1,18 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Mapa from '../../components/Mapa.astro';
 import EtapaNav from '../../components/EtapaNav.astro';
-import AudioPlayer from '../../components/AudioPlayer.astro';
 import Sp2Shell from '../../components/Sp2Shell.astro';
 import Pie from '../../components/Pie.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import EtapaCierre from '../../components/EtapaCierre.astro';
+import EtapaHero from '../../components/EtapaHero.astro';
+import EtapaOverview from '../../components/EtapaOverview.astro';
+import EtapaTreasureCard from '../../components/EtapaTreasureCard.astro';
+import EtapaWarning from '../../components/EtapaWarning.astro';
+import { getEtapa } from '../../data/etapas';
+
+const etapa = getEtapa(1);
 ---
 
-<Layout title="Etapa 01 — El Guardián del Horizonte" description="Agua Amarga → Las Negras (13 km)">
+<Layout title={etapa.layoutTitle} description={etapa.layoutDescription}>
 	<Sp2Shell>
-
-		<Cabecera etapa={1}
+		<Cabecera etapa={etapa.id}
 			class="text-center mb-10"
 			containerClass=""
 			showBreadcrumb={true}
@@ -21,85 +25,8 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 			logoClass="block object-contain max-w-full max-h-[120px] mx-auto"
 		/>
 
-
-
-		<div class="relative w-full mb-[30px] overflow-hidden rounded-[25px]">
-			<img
-				class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover"
-				src="/images/fondo-01.webp"
-				alt="Paisaje costero de Cabo de Gata"
-			/>
-			<div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
-			<div class="absolute inset-0 flex items-end">
-				<div class="w-full p-6 md:p-10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.12em] bg-black/80 text-white w-fit px-4 py-1 rounded-full mb-3">
-						Etapa 01
-					</p>
-					<h1 class="font-bold text-white text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
-						El Guardián del Horizonte
-					</h1>
-					<p class="text-base text-white/90 mt-2">
-						Agua Amarga → Las Negras · 13 km
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="grid grid-cols-1 gap-[22px] mt-2 lg:[grid-template-columns:3fr_2fr] lg:gap-[26px] lg:items-start">
-			<aside class="lg:sticky lg:top-6">
-				<div class="overflow-hidden rounded-[20px] bg-white border border-black/10">
-					<div class="h-[360px] md:h-[420px] lg:h-[480px]">
-						<Mapa minHeight="100%" routes={[{ id: "ruta-01", url: "/geojson/01.geojson", color: "#3a5f73" }]} fitPadding={20} />
-					</div>
-				</div>
-				<p class="mt-2.5 text-[12px] text-black/65">
-					<strong>Tip:</strong> entra en modo "full" para activar el GPS.
-				</p>
-			</aside>
-
-			<section class="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
-				<div data-audio-player class="col-span-full">
-					<AudioPlayer minimal={true} src="/descargas/01.mp3" title="Etapa 01" subtitle="El Guardián del Horizonte" />
-				</div>
-
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Distancia</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">13 km</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Duración estimada</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">3 horas y media</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Inicio</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">Agua Amarga</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Final</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">Las Negras</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Dificultad</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">Medio-Alto</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
-					<div class="mt-2.5 flex flex-wrap gap-[14px]">
-						<!--
-							<a href="/descargas/01.mp3" aria-label="Audio (MP3)">
-								<img src="/images/mp3.webp" alt="MP3" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-							</a>
-						-->
-						<a href="/descargas/01.pdf" download aria-label="PDF">
-							<img src="/images/pdf.webp" alt="PDF" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
-						<a href="/descargas/01.gpx" download aria-label="GPX">
-							<img src="/images/gpx.webp" alt="GPX" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
-					</div>
-				</div>
-			</section>
-		</div>
+		<EtapaHero etapa={etapa} />
+		<EtapaOverview etapa={etapa} />
 
 		<section class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Relato</h2>
@@ -117,50 +44,13 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<section>
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Los tesoros escondidos</h2>
 			<div class="mt-3 grid gap-[14px]">
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
-					<img
-						src="/images/01-01.webp"
-						alt="Torre de Mesa Roldán"
-						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
-					/>
-					<div class="min-w-0 flex flex-col justify-center">
-						<h3 class="text-[18px] font-bold text-black">Torre de Mesa Roldán</h3>
-						<p class="mt-2.5 leading-[1.7] text-[#333]">
-							Función Estratégica: Torres construida en el siglo XVIII. Su diseño buscaba una única cosa: impedir el desembarco masivo. Obsérvalo desde la distancia: su posición le daba control visual absoluto. Cuando el pirata veía esta construcción, sabía que el juego había terminado en este tramo. Contempla su poderío sin tener que ascender.
-						</p>
-					</div>
-				</article>
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
-					<img
-						src="/images/01-02.webp"
-						alt="Cala San Pedro y el Tesoro del Agua"
-						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
-					/>
-					<div class="min-w-0 flex flex-col justify-center">
-						<h3 class="text-[18px] font-bold text-black">Cala San Pedro y el Tesoro del Agua</h3>
-						<p class="mt-2.5 leading-[1.7] text-[#333]">
-							La paz de esta cala esconde una intensa lucha. Tu camino te lleva hasta el Castillo de San Pedro, cuyo único y vital objetivo era custodiar la fuente de agua dulce. Los corsarios, tras días de travesía, venían aquí a reabastecerse. La fortaleza en ruinas que encontrarás te recordará que cada recurso en la costa de Cabo de Gata era un punto de batalla.
-						</p>
-					</div>
-				</article>
+				{etapa.treasures.map((treasure) => (
+					<EtapaTreasureCard treasure={treasure} />
+				))}
 			</div>
 		</section>
 
-
-		<section class="mt-10 lg:flex lg:items-start lg:gap-8 bg-amber-100 p-8 rounded-2xl">
-			<div class="w-[100px] lg:shrink-0">
-				<img
-					src="/images/advertencia.svg"
-					alt="Advertencia del vigía"
-					class="mx-auto my-6 h-24 lg:mx-0 lg:my-0 lg:h-auto w-[100px]"
-				/>
-			</div>
-			<div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
-				<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">Advertencia del vigía</h2>
-				<p>
-					Si el torrero vigilaba el mar, tú debes custodiar la tierra. Por favor, lleva contigo tus residuos. Y si es posible, haz honor a la historia recogiendo algún “botín” de basura que encuentres. Preservar este Parque Natural es el mayor legado de la Senda Pirata del Cabo de Gata.</p>
-			</div>
-		</section>
+		<EtapaWarning paragraphs={etapa.warningParagraphs} />
 
 		<EtapaCierre />
 

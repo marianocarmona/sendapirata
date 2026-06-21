@@ -1,46 +1,51 @@
-# Astro Starter Kit: Basics
+# Senda Pirata
+
+Astro site for the Senda Pirata route in Cabo de Gata-Níjar. The project publishes five etapa pages with maps, audio, downloads, and static editorial content.
+
+## Quick start
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the Astro dev server |
+| `npm run build` | Build the production site |
+| `npm run astro -- check` | Run Astro type/content checks |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Required environment
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+Create a `.env` file with:
+
+```sh
+PUBLIC_MAPBOX_TOKEN=your-public-mapbox-token
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Use a public browser token and restrict it to the production domains in Mapbox. If the token is missing, etapa pages keep their static content and show a non-blocking map fallback message.
 
-## 🧞 Commands
+## Content structure
 
-All commands are run from the root of the project, from a terminal:
+- `src/data/etapas.ts` — canonical etapa metadata, downloads, map routes, and repeated structured content.
+- `src/pages/index.astro` — landing page.
+- `src/pages/etapas/index.astro` — etapa listing.
+- `src/pages/etapas/etapa-01.astro` to `etapa-05.astro` — etapa narratives plus shared hero/overview components.
+- `src/scripts/map/` — client-side Mapbox loader, bounds, route, control, and geolocation modules.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Asset audit notes
 
-## 👀 Want to learn more?
+- `public/sendapirata.sketch` was removed because it was an unreferenced source artifact.
+- `public/sendapirata_html/` is intentionally retained for now. Internal code does not reference it, but old public URLs were not verified and several files inside it differ from the current `/public/descargas` assets.
+- Legacy GPX and some MP3 files inside `public/sendapirata_html/` currently match files under `public/descargas`, but they remain until the legacy HTML path is either redirected or explicitly retired.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Verification
+
+Run these before shipping:
+
+```sh
+npm run astro -- check
+npm run build
+```

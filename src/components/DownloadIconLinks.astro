@@ -1,0 +1,16 @@
+---
+import type { DownloadAsset } from "../data/etapas";
+
+interface Props {
+  links: DownloadAsset[];
+  iconClass?: string;
+}
+
+const { links, iconClass = "block w-10 h-auto cursor-pointer transition-transform hover:scale-110" } = Astro.props as Props;
+---
+
+{links.map((link) => (
+  <a href={link.href} download={link.download ? true : undefined} aria-label={link.ariaLabel} title={link.label}>
+    <img src={link.iconSrc} alt={link.iconAlt} class={iconClass} loading="lazy" decoding="async" />
+  </a>
+))}

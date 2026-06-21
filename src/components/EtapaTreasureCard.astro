@@ -1,0 +1,23 @@
+---
+import type { TreasureSpot } from "../data/etapas";
+
+interface Props {
+  treasure: TreasureSpot;
+}
+
+const { treasure } = Astro.props as Props;
+---
+
+<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
+  <img
+    src={treasure.imageSrc}
+    alt={treasure.imageAlt}
+    class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="min-w-0 flex flex-col justify-center">
+    <h3 class="text-[18px] font-bold text-black">{treasure.title}</h3>
+    <p class="mt-2.5 leading-[1.7] text-[#333]">{treasure.description}</p>
+  </div>
+</article>

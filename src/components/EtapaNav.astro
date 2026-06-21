@@ -1,23 +1,18 @@
 ---
+import { etapas, totalEtapas } from "../data/etapas";
+
 interface Props {
 	current: number;
 	total?: number;
 	basePath?: string;
 }
 
-const { current, total = 5, basePath = "/etapas/etapa-" } = Astro.props;
+const { current, total = totalEtapas, basePath = "/etapas/etapa-" } = Astro.props;
 
 const fmt = (n: number) => String(n).padStart(2, "0");
+const TITULOS = new Map(etapas.map((etapa) => [etapa.id, etapa.cardTitle]));
 
-const TITULOS: Record<number, string> = {
-	1: "El Guardián del Horizonte",
-	2: "La Custodia del Alumbre y la Protección de los Mineros",
-	3: "Camino del Botín y la Indefensión del Interior",
-	4: "El Anillo Defensivo",
-	5: "El Fin de la Frontera",
-};
-
-const titulo = (n: number) => TITULOS[n] ?? "";
+const titulo = (n: number) => TITULOS.get(n) ?? "";
 
 const prev = current > 1 ? current - 1 : null;
 const next = current < total ? current + 1 : null;

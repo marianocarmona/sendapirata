@@ -1,0 +1,25 @@
+---
+interface Props {
+  paragraphs: string[];
+}
+
+const { paragraphs } = Astro.props as Props;
+---
+
+<section class="mt-10 lg:flex lg:items-start lg:gap-8 bg-amber-100 p-8 rounded-2xl">
+  <div class="w-[100px] lg:shrink-0">
+    <img
+      src="/images/advertencia.svg"
+      alt="Advertencia del vigía"
+      class="mx-auto my-6 h-24 lg:mx-0 lg:my-0 lg:h-auto w-[100px]"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
+    <h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">Advertencia del vigía</h2>
+    {paragraphs.map((paragraph) => (
+      <p>{paragraph}</p>
+    ))}
+  </div>
+</section>

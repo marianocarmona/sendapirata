@@ -1,0 +1,19 @@
+---
+import AudioPlayer from "./AudioPlayer.astro";
+---
+
+<div class="mt-10 mb-10 max-w-[650px] mx-auto flex flex-col md:flex-row items-start gap-5">
+  <div class="shrink-0">
+    <a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio" class="inline-block no-underline">
+      <img class="w-[60px] h-auto" src="/images/mp3.webp" alt="Audio MP3" loading="lazy" decoding="async" />
+    </a>
+  </div>
+  <div class="flex-1">
+    <p class="text-base leading-relaxed text-[#333] text-justify">
+      Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes de iniciar el recorrido.
+    </p>
+    <div class="mt-4">
+      <AudioPlayer minimal={true} src="/descargas/intro.mp3" title="Audio introductorio" subtitle="Activa el contexto antes de zarpar" />
+    </div>
+  </div>
+</div>

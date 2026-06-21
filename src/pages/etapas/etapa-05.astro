@@ -1,17 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Mapa from '../../components/Mapa.astro';
 import EtapaNav from '../../components/EtapaNav.astro';
-import AudioPlayer from '../../components/AudioPlayer.astro';
 import Sp2Shell from '../../components/Sp2Shell.astro';
 import Pie from '../../components/Pie.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import EtapaCierre from '../../components/EtapaCierre.astro';
+import EtapaHero from '../../components/EtapaHero.astro';
+import EtapaOverview from '../../components/EtapaOverview.astro';
+import EtapaTreasureCard from '../../components/EtapaTreasureCard.astro';
+import EtapaWarning from '../../components/EtapaWarning.astro';
+import { getEtapa } from '../../data/etapas';
+
+const etapa = getEtapa(5);
 ---
 
-<Layout title="Etapa 05 — El Fin de la Frontera" description="San José → La Fabriquilla (15,12 km)">
+<Layout title={etapa.layoutTitle} description={etapa.layoutDescription}>
 	<Sp2Shell>
-		<Cabecera etapa={5}
+		<Cabecera etapa={etapa.id}
 			class="text-center mb-10"
 			containerClass=""
 			showBreadcrumb={true}
@@ -20,83 +25,8 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 			logoClass="block object-contain max-w-full max-h-[120px] mx-auto"
 		/>
 
-		<div class="relative w-full mb-[30px] overflow-hidden rounded-[25px]">
-			<img
-				class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover"
-				src="/images/fondo-05.webp"
-				alt="Paisaje costero de Cabo de Gata"
-			/>
-			<div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
-			<div class="absolute inset-0 flex items-end">
-				<div class="w-full p-6 md:p-10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.12em] bg-black/80 text-white w-fit px-4 py-1 rounded-full mb-3">
-						Etapa 05
-					</p>
-					<h1 class="font-bold text-white text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]">
-						El Fin de la Frontera
-					</h1>
-					<p class="text-base text-white/90 mt-2">
-						San José → La Fabriquilla (Faro) · 15,12 km
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="grid grid-cols-1 gap-[22px] mt-2 lg:[grid-template-columns:3fr_2fr] lg:gap-[26px] lg:items-start">
-			<aside class="lg:sticky lg:top-6">
-				<div class="overflow-hidden rounded-[20px] bg-white border border-black/10">
-					<div class="h-[360px] md:h-[420px] lg:h-[480px]">
-						<Mapa minHeight="100%" routes={[{ id: "ruta-05", url: "/geojson/05.geojson", color: "#2f2b26" }]} fitPadding={20} />
-					</div>
-				</div>
-				<p class="mt-2.5 text-[12px] text-black/65">
-					<strong>Tip:</strong> entra en modo "full" para activar el GPS.
-				</p>
-			</aside>
-
-			<section class="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
-				<div data-audio-player class="col-span-full">
-					<AudioPlayer minimal={true} src="/descargas/05.mp3" title="Etapa 05" subtitle="El Fin de la Frontera" />
-				</div>
-
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Distancia</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">15,12 km</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Duración estimada</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">4 horas y media</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Inicio</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">San José</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Final</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">La Fabriquilla (Faro)</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Dificultad</p>
-					<p class="mt-1.5 text-[18px] font-bold text-black">Media-Alta</p>
-				</div>
-				<div class="rounded-[18px] bg-white p-4 border border-black/10">
-					<p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
-					<div class="mt-2.5 flex flex-wrap gap-[14px]">
-						<!--
-							<a href="/descargas/05.mp3" aria-label="Audio (MP3)">
-								<img src="/images/mp3.webp" alt="MP3" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-							</a>
-						-->
-						<a href="/descargas/05.pdf" download aria-label="PDF">
-							<img src="/images/pdf.webp" alt="PDF" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
-						<a href="/descargas/05.gpx" download aria-label="GPX">
-							<img src="/images/gpx.webp" alt="GPX" class="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
-						</a>
-					</div>
-				</div>
-			</section>
-		</div>
+		<EtapaHero etapa={etapa} />
+		<EtapaOverview etapa={etapa} />
 
 		<section class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Relato</h2>
@@ -113,51 +43,13 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<section>
 			<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif]">Los tesoros escondidos</h2>
 			<div class="mt-3 grid gap-[14px]">
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
-					<img
-						src="/images/05-01.webp"
-						alt="Torre de Vela Blanca"
-						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
-					/>
-					<div class="min-w-0 flex flex-col justify-center">
-						<h3 class="text-[18px] font-bold text-black">Torre de Vela Blanca</h3>
-						<p class="mt-2.5 leading-[1.7] text-[#333]">
-							Esta torre troncocónica no solo vigilaba: era el centro neurálgico. Si el fuego llegaba hasta aquí, significaba que la amenaza era inminente y las alarmas sonarían en la ciudad de Almería. Su posición, inexpugnable, fue clave para que el sistema funcionara durante siglos. Tómate un momento para apreciar su dominio visual.
-						</p>
-					</div>
-				</article>
-				<article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
-					<img
-						src="/images/05-02.webp"
-						alt="El Faro de Cabo de Gata"
-						class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
-					/>
-					<div class="min-w-0 flex flex-col justify-center">
-						<h3 class="text-[18px] font-bold text-black">El Faro de Cabo de Gata</h3>
-						<p class="mt-2.5 leading-[1.7] text-[#333]">
-							El faro que te guía no es solo una luz, sino un símbolo de la transformación histórica de la costa. Se asienta sobre las ruinas del antiguo Castillo de San Francisco de Paula, una fortaleza defensiva del siglo XVIII, conocida popularmente como El Corralete, que custodiaba este punto crucial del litoral. Tras siglos de enfrentamientos, el siglo XIX trajo la paz definitiva con el Norte de África. Con la desaparición de la amenaza corsaria, la necesidad de defender la costa fue reemplazada por la necesidad de guiar la navegación civil y comercial.
-						</p>
-					</div>
-
-				</article>
+				{etapa.treasures.map((treasure) => (
+					<EtapaTreasureCard treasure={treasure} />
+				))}
 			</div>
 		</section>
 
-		<section class="mt-10 lg:flex lg:items-start lg:gap-8 bg-amber-100 p-8 rounded-2xl">
-			<div class="w-[100px] lg:shrink-0">
-				<img
-					src="/images/advertencia.svg"
-					alt="Advertencia del vigía"
-					class="mx-auto my-6 h-24 lg:mx-0 lg:my-0 lg:h-auto w-[100px]"
-				/>
-			</div>
-			<div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3">
-				<h2 class="mt-[26px] mb-3 text-[26px] font-bold text-black font-['thornwood-vf',_sans-serif] lg:mt-0">Advertencia del vigía</h2>
-				<p>Has llegado al final del camino, pero no del compromiso. Respeta la vegetación dunar, no abandones residuos y extrema el cuidado en zonas de acantilado y costa.</p>
-				<p>El verdadero logro del vigía es regresar sabiendo que su paso no ha dejado huella.</p>
-			</div>
-		</section>
-
+		<EtapaWarning paragraphs={etapa.warningParagraphs} />
 
 		<EtapaCierre />
 
@@ -165,4 +57,3 @@ import EtapaCierre from '../../components/EtapaCierre.astro';
 		<Pie />
 	</Sp2Shell>
 </Layout>
-

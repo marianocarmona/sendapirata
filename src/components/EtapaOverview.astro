@@ -1,0 +1,47 @@
+---
+import type { EtapaRecord } from "../data/etapas";
+import AudioPlayer from "./AudioPlayer.astro";
+import DownloadIconLinks from "./DownloadIconLinks.astro";
+import Mapa from "./Mapa.astro";
+
+interface Props {
+  etapa: EtapaRecord;
+}
+
+const { etapa } = Astro.props as Props;
+---
+
+<div class="grid grid-cols-1 gap-[22px] mt-2 lg:[grid-template-columns:3fr_2fr] lg:gap-[26px] lg:items-start">
+  <aside class="lg:sticky lg:top-6">
+    <div class="overflow-hidden rounded-[20px] bg-white border border-black/10">
+      <div class="h-[360px] md:h-[420px] lg:h-[480px]">
+        <Mapa minHeight="22.5rem" routes={etapa.mapRoutes} fitPadding={20} />
+      </div>
+    </div>
+    <p class="mt-2.5 text-[12px] text-black/65">
+      <strong>Tip:</strong> entra en modo "full" para activar el GPS.
+    </p>
+  </aside>
+
+  <section class="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
+    {etapa.audioTracks.map((track) => (
+      <div data-audio-player class="col-span-full">
+        <AudioPlayer minimal={true} src={track.src} title={track.title} subtitle={track.subtitle} />
+      </div>
+    ))}
+
+    {etapa.stats.map((stat) => (
+      <div class="rounded-[18px] bg-white p-4 border border-black/10">
+        <p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">{stat.label}</p>
+        <p class="mt-1.5 text-[18px] font-bold text-black">{stat.value}</p>
+      </div>
+    ))}
+
+    <div class="rounded-[18px] bg-white p-4 border border-black/10">
+      <p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
+      <div class="mt-2.5 flex flex-wrap gap-[14px]">
+        <DownloadIconLinks links={etapa.detailDownloads} iconClass="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
+      </div>
+    </div>
+  </section>
+</div>
