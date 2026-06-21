@@ -1,4 +1,8 @@
 ---
+import { getImageDimensions } from "../data/image-dimensions";
+
+const sendaDimensions = getImageDimensions("/images/senda.svg");
+const cartillaDimensions = getImageDimensions("/images/cartilla.webp");
 ---
 <section class="mt-10 lg:flex lg:items-start lg:gap-8">
   <div class="w-[100px] lg:shrink-0">
@@ -6,6 +10,8 @@
       src="/images/senda.svg"
       alt="La experiencia Senda Pirata"
       class="mx-auto my-6 h-24 w-[100px] lg:mx-0 lg:my-0 lg:h-auto"
+      width={sendaDimensions.width}
+      height={sendaDimensions.height}
     />
   </div>
   <div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-[#333] [&>p+p]:mt-3 [&>p]:italic">
@@ -21,6 +27,8 @@
       alt="La experiencia Senda Pirata"
       class="mx-auto my-6 h-24 w-auto lg:mx-0 lg:my-0 lg:h-auto"
       style={{ width: '150px' }}
+      width={cartillaDimensions.width}
+      height={cartillaDimensions.height}
     />
   </div>
   <div class="[&>p]:text-base [&>p]:leading-[1.75] [&>p]:text-white [&>p+p]:mt-3">

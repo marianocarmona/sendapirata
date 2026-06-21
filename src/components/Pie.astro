@@ -1,4 +1,6 @@
 ---
+import { getImageDimensions } from "../data/image-dimensions";
+
 interface Props {
   class?: string;
   containerClass?: string;
@@ -10,13 +12,27 @@ const {
 } = Astro.props;
 
 const year = new Date().getFullYear();
+const asemparnaDimensions = getImageDimensions("/images/asemparna.webp");
+const ayuntamientoDimensions = getImageDimensions("/images/ayuntamiento.webp");
 ---
 
 <footer class={className}>
   <div class={containerClass}>
     <div class="flex items-center justify-between py-6">
-      <img src="/images/asemparna.webp" alt="Senda Pirata" class="h-12 object-contain" />
-      <img src="/images/ayuntamiento.webp" alt="Senda Pirata" class="h-12 object-contain" />
+      <img
+        src="/images/asemparna.webp"
+        alt="Senda Pirata"
+        class="h-12 object-contain"
+        width={asemparnaDimensions.width}
+        height={asemparnaDimensions.height}
+      />
+      <img
+        src="/images/ayuntamiento.webp"
+        alt="Senda Pirata"
+        class="h-12 object-contain"
+        width={ayuntamientoDimensions.width}
+        height={ayuntamientoDimensions.height}
+      />
 
     </div>
     <p class="text-sm text-[var(--sp-muted)] text-center mt-4">
@@ -24,4 +40,3 @@ const year = new Date().getFullYear();
     </p>
   </div>
 </footer>
-

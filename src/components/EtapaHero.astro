@@ -1,4 +1,5 @@
 ---
+import { getImageDimensions } from "../data/image-dimensions";
 import type { EtapaRecord } from "../data/etapas";
 
 interface Props {
@@ -6,10 +7,17 @@ interface Props {
 }
 
 const { etapa } = Astro.props as Props;
+const heroDimensions = getImageDimensions(etapa.heroImage);
 ---
 
 <div class="relative w-full mb-[30px] overflow-hidden rounded-[25px]">
-  <img class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover" src={etapa.heroImage} alt={etapa.heroAlt} />
+  <img
+    class="w-full h-[320px] md:h-[380px] lg:h-[420px] object-cover"
+    src={etapa.heroImage}
+    alt={etapa.heroAlt}
+    width={heroDimensions.width}
+    height={heroDimensions.height}
+  />
   <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
   <div class="absolute inset-0 flex items-end">
     <div class="w-full p-6 md:p-10">

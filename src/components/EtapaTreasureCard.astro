@@ -1,4 +1,5 @@
 ---
+import { getImageDimensions } from "../data/image-dimensions";
 import type { TreasureSpot } from "../data/etapas";
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
 }
 
 const { treasure } = Astro.props as Props;
+const treasureDimensions = getImageDimensions(treasure.imageSrc);
 ---
 
 <article class="rounded-[18px] bg-white p-[18px] border border-black/10 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -15,6 +17,8 @@ const { treasure } = Astro.props as Props;
     class="w-full sm:w-[150px] h-auto rounded-[10px] shrink-0"
     loading="lazy"
     decoding="async"
+    width={treasureDimensions.width}
+    height={treasureDimensions.height}
   />
   <div class="min-w-0 flex flex-col justify-center">
     <h3 class="text-[18px] font-bold text-black">{treasure.title}</h3>

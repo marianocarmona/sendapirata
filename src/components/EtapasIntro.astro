@@ -1,11 +1,22 @@
 ---
+import { getImageDimensions } from "../data/image-dimensions";
 import AudioPlayer from "./AudioPlayer.astro";
+
+const introIconDimensions = getImageDimensions("/images/mp3.webp");
 ---
 
 <div class="mt-10 mb-10 max-w-[650px] mx-auto flex flex-col md:flex-row items-start gap-5">
   <div class="shrink-0">
     <a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio" class="inline-block no-underline">
-      <img class="w-[60px] h-auto" src="/images/mp3.webp" alt="Audio MP3" loading="lazy" decoding="async" />
+      <img
+        class="w-[60px] h-auto"
+        src="/images/mp3.webp"
+        alt="Audio MP3"
+        loading="lazy"
+        decoding="async"
+        width={introIconDimensions.width}
+        height={introIconDimensions.height}
+      />
     </a>
   </div>
   <div class="flex-1">

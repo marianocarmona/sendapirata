@@ -1,11 +1,14 @@
 ---
+import { getImageDimensions } from "../data/image-dimensions";
+import type { PublicAssetPath } from "../data/asset-validation";
+
 interface Props {
   etapa?: number;
   class?: string;
   containerClass?: string;
   showLogo?: boolean;
   showBreadcrumb?: boolean;
-  logoSrc?: string;
+  logoSrc?: PublicAssetPath;
   logoAlt?: string;
   logoClass?: string;
 }
@@ -22,12 +25,19 @@ const {
 } = Astro.props as Props;
 
 const fmtEtapa = (n: number) => String(Math.max(0, n)).padStart(2, "0");
+const logoDimensions = showLogo ? getImageDimensions(logoSrc) : null;
 ---
 
 <header class={className}>
   <div class={containerClass}>
     {showLogo ? (
-      <img src={logoSrc} alt={logoAlt} class={logoClass} />
+      <img
+        src={logoSrc}
+        alt={logoAlt}
+        class={logoClass}
+        width={logoDimensions?.width}
+        height={logoDimensions?.height}
+      />
     ) : null}
 
     {showBreadcrumb ? (
