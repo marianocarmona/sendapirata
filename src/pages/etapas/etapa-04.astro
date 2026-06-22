@@ -34,7 +34,7 @@ const etapaSchemas = [...buildEtapaSchemas(etapa, { site }), breadcrumbSchema].f
 );
 ---
 
-<Layout title={etapa.layoutTitle} description={etapa.layoutDescription}>
+<Layout title={etapa.layoutTitle} description={etapa.layoutDescription} socialImage={etapa.socialImage}>
 	<JsonLd slot="head" data={etapaSchemas} />
 	<Sp2Shell>
 		<Cabecera etapa={etapa.id}

@@ -1,4 +1,5 @@
 import { assertNonEmpty, assertPublicAssetExists, type PublicAssetPath } from "./asset-validation";
+import { createSocialImageMetadata, type SocialImageMetadata } from "./site";
 
 export interface DownloadAsset {
   kind: "audio" | "pdf" | "gpx";
@@ -47,6 +48,7 @@ export interface EtapaRecord {
   heroRouteLabel: string;
   heroImage: PublicAssetPath;
   heroAlt: string;
+  socialImage?: SocialImageMetadata;
   cardImage: PublicAssetPath;
   mapRoutes: RouteDef[];
   audioTracks: AudioTrack[];
@@ -102,11 +104,12 @@ export const etapas: EtapaRecord[] = [
     cardTitle: "El Guardián del Horizonte",
     detailTitle: "El Guardián del Horizonte",
     layoutTitle: "Etapa 01 — El Guardián del Horizonte",
-    layoutDescription: "Agua Amarga → Las Negras (13 km)",
+    layoutDescription: "Etapa 01 entre Agua Amarga y Las Negras, con relato histórico, audio, mapa y descargas PDF y GPX del recorrido.",
     routeSummary: "Agua Amarga > Las Negras · 13 km",
     heroRouteLabel: "Agua Amarga → Las Negras · 13 km",
     heroImage: "/images/fondo-01.webp",
     heroAlt: "Paisaje costero de Cabo de Gata",
+    socialImage: createSocialImageMetadata("/images/fondo-01.webp", "Paisaje costero de Cabo de Gata"),
     cardImage: "/images/01.webp",
     mapRoutes: [{ id: "ruta-01", url: "/geojson/01.geojson", color: "#3a5f73" }],
     audioTracks: [{ src: "/descargas/01.mp3", title: "Etapa 01", subtitle: "El Guardián del Horizonte" }],
@@ -150,11 +153,12 @@ export const etapas: EtapaRecord[] = [
     cardTitle: "La Custodia del Alumbre y la Protección de los Mineros",
     detailTitle: "La Custodia del Alumbre",
     layoutTitle: "Etapa 02 — La Custodia del Alumbre",
-    layoutDescription: "Las Negras → Rodalquilar (17 km)",
+    layoutDescription: "Etapa 02 entre Las Negras y Rodalquilar, con historia sobre la custodia del alumbre, mapa, audio y descargas PDF y GPX.",
     routeSummary: "Las Negras > Rodalquilar · 17 km",
     heroRouteLabel: "Las Negras → Rodalquilar · 17 km",
     heroImage: "/images/fondo-02.webp",
     heroAlt: "Paisaje costero de Cabo de Gata",
+    socialImage: createSocialImageMetadata("/images/fondo-02.webp", "Paisaje costero de Cabo de Gata"),
     cardImage: "/images/02.webp",
     mapRoutes: [{ id: "ruta-02", url: "/geojson/02.geojson", color: "#9a6b2f" }],
     audioTracks: [{ src: "/descargas/02.mp3", title: "Etapa 02", subtitle: "La Custodia del Alumbre" }],
@@ -212,11 +216,12 @@ export const etapas: EtapaRecord[] = [
     cardTitle: "Camino del Botín y la Indefensión del Interior",
     detailTitle: "Camino del Botín",
     layoutTitle: "Etapa 03 — Camino del Botín",
-    layoutDescription: "Rodalquilar → La Isleta del Moro (14,2 km)",
+    layoutDescription: "Etapa 03 entre Rodalquilar y La Isleta del Moro, con relato sobre el botín corsario, mapa, audio y descargas PDF y GPX.",
     routeSummary: "Rodalquilar > La Isleta del Moro · 14,2 km",
     heroRouteLabel: "Rodalquilar → La Isleta del Moro · 14,2 km",
     heroImage: "/images/fondo-03.webp",
     heroAlt: "Paisaje costero de Cabo de Gata",
+    socialImage: createSocialImageMetadata("/images/fondo-03.webp", "Paisaje costero de Cabo de Gata"),
     cardImage: "/images/03.webp",
     mapRoutes: [{ id: "ruta-03", url: "/geojson/03.geojson", color: "#8c3b2e" }],
     audioTracks: [{ src: "/descargas/03.mp3", title: "Etapa 03", subtitle: "Camino del Botín" }],
@@ -260,11 +265,12 @@ export const etapas: EtapaRecord[] = [
     cardTitle: "El Anillo Defensivo",
     detailTitle: "El Anillo Defensivo",
     layoutTitle: "Etapa 04 — El Anillo Defensivo",
-    layoutDescription: "La Isleta del Moro → San José (12,3 km)",
+    layoutDescription: "Etapa 04 entre La Isleta del Moro y San José, con relatos del anillo defensivo, mapa, audios y descargas PDF y GPX.",
     routeSummary: "La Isleta del Moro > San José · 12,3 km",
     heroRouteLabel: "La Isleta del Moro → San José · 12,3 km",
     heroImage: "/images/fondo-04.webp",
     heroAlt: "Paisaje costero de Cabo de Gata",
+    socialImage: createSocialImageMetadata("/images/fondo-04.webp", "Paisaje costero de Cabo de Gata"),
     cardImage: "/images/04.webp",
     mapRoutes: [{ id: "ruta-04", url: "/geojson/04.geojson", color: "#4f6b4a" }],
     audioTracks: [
@@ -345,11 +351,12 @@ export const etapas: EtapaRecord[] = [
     cardTitle: "El Fin de la Frontera",
     detailTitle: "El Fin de la Frontera",
     layoutTitle: "Etapa 05 — El Fin de la Frontera",
-    layoutDescription: "San José → La Fabriquilla (15,12 km)",
+    layoutDescription: "Etapa 05 entre San José y La Fabriquilla, con relato sobre la frontera, mapa, audio y descargas PDF y GPX.",
     routeSummary: "San José > La Fabriquilla (Faro) · 15,12 km",
     heroRouteLabel: "San José → La Fabriquilla (Faro) · 15,12 km",
     heroImage: "/images/fondo-05.webp",
     heroAlt: "Paisaje costero de Cabo de Gata",
+    socialImage: createSocialImageMetadata("/images/fondo-05.webp", "Paisaje costero de Cabo de Gata"),
     cardImage: "/images/05.webp",
     mapRoutes: [{ id: "ruta-05", url: "/geojson/05.geojson", color: "#2f2b26" }],
     audioTracks: [{ src: "/descargas/05.mp3", title: "Etapa 05", subtitle: "El Fin de la Frontera" }],
@@ -420,6 +427,10 @@ function validateEtapas(records: EtapaRecord[]): void {
     assertNonEmpty(etapa.routeSummary, `Etapa ${etapa.id} route summary`);
     assertNonEmpty(etapa.heroRouteLabel, `Etapa ${etapa.id} hero route label`);
     assertPublicAssetExists(etapa.heroImage, `Etapa ${etapa.id} hero image`);
+    if (etapa.socialImage) {
+      assertNonEmpty(etapa.socialImage.alt, `Etapa ${etapa.id} social image alt`);
+      assertPublicAssetExists(etapa.socialImage.src, `Etapa ${etapa.id} social image`);
+    }
     assertPublicAssetExists(etapa.cardImage, `Etapa ${etapa.id} card image`);
 
     if (etapa.mapRoutes.length === 0) {

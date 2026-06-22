@@ -2,19 +2,26 @@
 import '../styles/global.css';
 import { SEO } from "astro-seo";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
-import { SITE_NAME, SITE_DESCRIPTION, SOCIAL_IMAGE_PATH } from "../data/site";
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_SOCIAL_IMAGE,
+  type SocialImageMetadata,
+} from "../data/site";
 import { getSiteBase, toAbsoluteUrl, toCanonicalUrl } from "../data/seo-urls";
 
 interface Props {
   title: string;
   description?: string;
+  socialImage?: SocialImageMetadata;
 }
 
-const { title, description } = Astro.props as Props;
+const { title, description, socialImage } = Astro.props as Props;
 const siteUrl = getSiteBase(Astro.site, Astro.url);
 const canonicalUrl = toCanonicalUrl(Astro.url.pathname, siteUrl);
-const socialImageUrl = toAbsoluteUrl(SOCIAL_IMAGE_PATH, siteUrl);
 const metaDescription = description ?? SITE_DESCRIPTION;
+const resolvedSocialImage = socialImage ?? SITE_SOCIAL_IMAGE;
+const socialImageUrl = toAbsoluteUrl(resolvedSocialImage.src, siteUrl);
 ---
 <!doctype html>
 <html lang="es">
@@ -31,33 +38,36 @@ const metaDescription = description ?? SITE_DESCRIPTION;
 		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-      <SEO
-        title={title}
-        description={metaDescription}
-        canonical={canonicalUrl}
-        openGraph={{
-          basic: {
-            title,
-           type: "website",
-           image: socialImageUrl,
-         }
-       }}
-        twitter={{
-          card: "summary_large_image"
-        }}
-        extend={{
-          link: [{ rel: "icon", href: "/favicon.ico" }],
-         meta: [
-            {
-              name: "twitter:image",
-             content: socialImageUrl,
+       <SEO
+         title={title}
+         description={metaDescription}
+         canonical={canonicalUrl}
+         openGraph={{
+           basic: {
+             title,
+             type: "website",
+             image: socialImageUrl,
+             url: canonicalUrl,
            },
-           { name: "twitter:title", content: title },
-           { name: "twitter:description", content: metaDescription },
-           { property: "og:site_name", content: SITE_NAME },
-         ],
-        }}
-      />
+           optional: {
+             description: metaDescription,
+             locale: "es_ES",
+             siteName: SITE_NAME,
+           },
+           image: {
+             alt: resolvedSocialImage.alt,
+             width: resolvedSocialImage.width,
+             height: resolvedSocialImage.height,
+           },
+         }}
+         twitter={{
+           card: "summary_large_image",
+           title,
+           description: metaDescription,
+           image: socialImageUrl,
+           imageAlt: resolvedSocialImage.alt,
+         }}
+       />
 		<slot name="head" />
 	</head>
 	<body>

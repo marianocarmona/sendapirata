@@ -8,17 +8,25 @@ import Sp2Shell from "../components/Sp2Shell.astro";
 import Pie from "../components/Pie.astro";
 import { getImageDimensions } from "../data/image-dimensions";
 import { etapas } from "../data/etapas";
+import { createSocialImageMetadata } from "../data/site";
 import { getSiteBase } from "../data/seo-urls";
 import { buildEtapaItemListSchema, buildWebSiteSchema } from "../data/structured-data";
 
 const homeHeroDimensions = getImageDimensions("/images/fondo_playa.webp");
+const homeDescription =
+  "Ruta de cinco etapas por la costa de Cabo de Gata-Níjar con contexto histórico sobre corsarios, audio introductorio y acceso a los recursos de cada etapa.";
+const homeSocialImage = createSocialImageMetadata(
+  "/images/fondo_playa.webp",
+  "Paisaje costero de Cabo de Gata",
+);
 const site = getSiteBase(Astro.site, Astro.url);
 const homeSchemas = [buildWebSiteSchema({ site }), buildEtapaItemListSchema({ site })];
 ---
 
 <Layout
   title="Senda Pirata"
-  description="Ruta de cinco etapas por la costa de Cabo de Gata-Níjar."
+  description={homeDescription}
+  socialImage={homeSocialImage}
 >
   <JsonLd slot="head" data={homeSchemas} />
   <Sp2Shell>

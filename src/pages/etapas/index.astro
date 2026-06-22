@@ -7,6 +7,7 @@ import EtapaCard from '../../components/EtapaCard.astro';
 import EtapasIntro from '../../components/EtapasIntro.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { etapas } from '../../data/etapas';
+import { createSocialImageMetadata } from '../../data/site';
 import { getSiteBase } from '../../data/seo-urls';
 import {
 	buildBreadcrumbListSchema,
@@ -16,7 +17,12 @@ import {
 } from '../../data/structured-data';
 
 const pageTitle = 'Etapas — Senda Pirata';
-const pageDescription = 'Información y enlaces a todas las etapas de la Senda Pirata.';
+const pageDescription =
+	'Consulta las cinco etapas de la Senda Pirata con el resumen de cada tramo y acceso a sus audios, PDF y GPX.';
+const pageSocialImage = createSocialImageMetadata(
+	'/images/cartilla.webp',
+	'Cartilla de la Senda Pirata con el recorrido de cinco etapas por Cabo de Gata-Níjar.',
+);
 const pagePath = Astro.url.pathname;
 const site = getSiteBase(Astro.site, Astro.url);
 const breadcrumbSchema = buildBreadcrumbListSchema(
@@ -48,7 +54,7 @@ const listingSchemas = [
 ---
 
 
-<Layout title={pageTitle} description={pageDescription}>
+<Layout title={pageTitle} description={pageDescription} socialImage={pageSocialImage}>
 	<JsonLd slot="head" data={listingSchemas} />
 	<Sp2Shell>
 		<Cabecera />
