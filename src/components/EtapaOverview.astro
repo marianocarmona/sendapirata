@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { etapa } = Astro.props as Props;
+const etapaContextLabel = `Etapa ${etapa.idLabel} — ${etapa.detailTitle}`;
 ---
 
 <div class="grid grid-cols-1 gap-[22px] mt-2 lg:[grid-template-columns:3fr_2fr] lg:gap-[26px] lg:items-start">
@@ -24,6 +25,11 @@ const { etapa } = Astro.props as Props;
   </aside>
 
   <section class="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
+    <div class="col-span-full rounded-[18px] bg-white p-4 border border-black/10">
+      <p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Audio de la etapa</p>
+      <p class="mt-1.5 text-sm text-black/70">Reproduce el relato de {etapaContextLabel}.</p>
+    </div>
+
     {etapa.audioTracks.map((track) => (
       <div data-audio-player class="col-span-full">
         <AudioPlayer minimal={true} src={track.src} title={track.title} subtitle={track.subtitle} />
@@ -39,8 +45,13 @@ const { etapa } = Astro.props as Props;
 
     <div class="rounded-[18px] bg-white p-4 border border-black/10">
       <p class="text-[12px] font-bold uppercase tracking-[0.06em] text-black/55">Descargas</p>
+      <p class="mt-1.5 text-sm text-black/70">Descarga el PDF y el archivo GPX de {etapaContextLabel}.</p>
       <div class="mt-2.5 flex flex-wrap gap-[14px]">
-        <DownloadIconLinks links={etapa.detailDownloads} iconClass="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]" />
+        <DownloadIconLinks
+          links={etapa.detailDownloads}
+          contextLabel={etapaContextLabel}
+          iconClass="block w-11 h-auto cursor-pointer transition-transform hover:scale-[1.08]"
+        />
       </div>
     </div>
   </section>

@@ -2,12 +2,39 @@
 import { getImageDimensions } from "../data/image-dimensions";
 import AudioPlayer from "./AudioPlayer.astro";
 
+interface Props {
+	variant?: "home" | "listing";
+}
+
 const introIconDimensions = getImageDimensions("/images/mp3.webp");
+const { variant = "home" } = Astro.props as Props;
+
+const introTextByVariant = {
+	home:
+		"Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes de iniciar el recorrido.",
+	listing:
+		"Este índice reúne las cinco etapas de la Senda Pirata con el resumen de cada tramo y acceso directo a sus recursos. El audio introductorio mantiene disponible el contexto histórico común antes de elegir una etapa.",
+} as const;
+
+const introSubtitleByVariant = {
+	home: "Activa el contexto antes de zarpar",
+	listing: "Contexto común para las cinco etapas",
+} as const;
+
+const introText = introTextByVariant[variant];
+const introSubtitle = introSubtitleByVariant[variant];
+const introDownloadLabel = "Descargar audio introductorio de la Senda Pirata";
 ---
 
 <div class="mt-10 mb-10 max-w-[650px] mx-auto flex flex-col md:flex-row items-start gap-5">
   <div class="shrink-0">
-    <a href="/descargas/intro.mp3" download aria-label="Descargar audio introductorio" class="inline-block no-underline">
+    <a
+      href="/descargas/intro.mp3"
+      download
+      aria-label={introDownloadLabel}
+      title={introDownloadLabel}
+      class="inline-block no-underline"
+    >
       <img
         class="w-[60px] h-auto"
         src="/images/mp3.webp"
@@ -21,10 +48,10 @@ const introIconDimensions = getImageDimensions("/images/mp3.webp");
   </div>
   <div class="flex-1">
     <p class="text-base leading-relaxed text-[#333] text-justify">
-      Esta ruta de cinco etapas recorre una costa marcada históricamente por los ataques de corsarios y los sistemas defensivos. Torres, fortalezas y calas conservan las historias de una frontera mediterránea siempre alerta. Te recomendamos escuchar el audio introductorio para comprender el contexto histórico antes de iniciar el recorrido.
+      {introText}
     </p>
     <div class="mt-4">
-      <AudioPlayer minimal={true} src="/descargas/intro.mp3" title="Audio introductorio" subtitle="Activa el contexto antes de zarpar" />
+      <AudioPlayer minimal={true} src="/descargas/intro.mp3" title="Audio introductorio" subtitle={introSubtitle} />
     </div>
   </div>
 </div>

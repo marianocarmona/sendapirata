@@ -9,6 +9,12 @@ interface Props {
 const { src, title = "Audio", subtitle, minimal = false } = Astro.props;
 
 const id = `ap-${Math.random().toString(36).slice(2)}`;
+const audioLabel = subtitle ? `${title} — ${subtitle}` : title;
+const playLabel = `Reproducir ${audioLabel}`;
+const pauseLabel = `Pausar ${audioLabel}`;
+const progressLabel = `Progreso de ${audioLabel}`;
+const seekLabel = `Barra de progreso de ${audioLabel}`;
+const downloadLabel = `Descargar ${audioLabel}`;
 ---
 
 <div
@@ -57,7 +63,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
     <button
       type="button"
       class="grid place-items-center w-11 h-11 rounded-2xl border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/15"
-      aria-label="Reproducir"
+      aria-label={playLabel}
       data-ap="toggle"
     >
       <span class="inline-flex transition-transform group-hover:scale-110 group-data-[ap-state=playing]:hidden" aria-hidden="true">
@@ -72,7 +78,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
       </span>
     </button>
 
-    <div class="min-w-0" role="group" aria-label="Progreso">
+    <div class="min-w-0" role="group" aria-label={progressLabel}>
 
       <div class="mt-0 flex gap-2 items-center text-[12px] text-white/65 select-none" aria-hidden="false">
         <span data-ap="cur">0:00</span>
@@ -87,7 +93,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
         value="0"
         step="1"
         data-ap="seek"
-        aria-label="Barra de progreso"
+        aria-label={seekLabel}
       />
     </div>
 
@@ -95,8 +101,8 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
       class="grid place-items-center w-11 h-11 rounded-2xl border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/15"
       href={src}
       download
-      aria-label="Descargar audio"
-      title="Descargar audio"
+      aria-label={downloadLabel}
+      title={downloadLabel}
     >
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
@@ -113,7 +119,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
   <audio src={src} preload="none" data-ap="audio"></audio>
 </div>
 
-<script is:inline define:vars={{ id }}>
+<script is:inline define:vars={{ id, playLabel, pauseLabel }}>
   ;(() => {
     const root = document.getElementById(id)
     if (!root) return
@@ -153,7 +159,7 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
 
     const setPlaying = (isPlaying) => {
       root.dataset.apState = isPlaying ? 'playing' : 'paused'
-      btn.setAttribute('aria-label', isPlaying ? 'Pausar' : 'Reproducir')
+      btn.setAttribute('aria-label', isPlaying ? pauseLabel : playLabel)
     }
 
     btn.addEventListener('click', async () => {
@@ -213,4 +219,3 @@ const id = `ap-${Math.random().toString(36).slice(2)}`;
     cursor: pointer;
   }
 </style>
-

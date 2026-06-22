@@ -59,9 +59,21 @@ const listingSchemas = [
 	<Sp2Shell>
 		<Cabecera />
 
-		<EtapasIntro />
+		<section class="mt-10 mx-auto max-w-[760px]">
+			<h1
+				id="etapas-heading"
+				class="text-center font-bold text-black text-[32px] md:text-[42px] font-['thornwood-vf',_sans-serif]"
+			>
+				Todas las etapas de la Senda Pirata
+			</h1>
+			<p class="mt-3 text-base leading-relaxed text-[#333] text-center md:text-left">
+				Consulta las cinco etapas de la ruta, revisa el resumen de cada tramo y accede desde aquí a sus audios y descargas.
+			</p>
+		</section>
 
-		<div class="mb-10" aria-label="Etapas">
+		<EtapasIntro variant="listing" />
+
+		<div class="mb-10" aria-labelledby="etapas-heading">
 			{etapas.map((etapa) => (
 				<EtapaCard etapa={etapa} variant="list" />
 			))}

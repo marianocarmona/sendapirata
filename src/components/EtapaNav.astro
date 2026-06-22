@@ -13,6 +13,11 @@ const fmt = (n: number) => String(n).padStart(2, "0");
 const TITULOS = new Map(etapas.map((etapa) => [etapa.id, etapa.cardTitle]));
 
 const titulo = (n: number) => TITULOS.get(n) ?? "";
+const navLabel = (prefix: string, n: number) => {
+	const stageTitle = titulo(n);
+
+	return `${prefix} la etapa ${fmt(n)}${stageTitle ? ` — ${stageTitle}` : ""}`;
+};
 
 const prev = current > 1 ? current - 1 : null;
 const next = current < total ? current + 1 : null;
@@ -24,7 +29,7 @@ const next = current < total ? current + 1 : null;
 			<a
 				class="group inline-flex min-w-0 flex-1 items-center justify-start gap-4 rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4! hover:bg-[var(--sp-surface-2)]"
 				href={`${basePath}${fmt(prev)}`}
-				aria-label={`Volver a etapa ${fmt(prev)}`}
+				aria-label={navLabel("Volver a", prev)}
 			>
 				<span class="shrink-0 text-sm font-semibold text-white">← Anterior</span>
 				<span class="min-w-0">
@@ -42,7 +47,7 @@ const next = current < total ? current + 1 : null;
 			<a
 				class="group inline-flex min-w-0 flex-1 items-center justify-end gap-4 rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4! text-right hover:bg-[var(--sp-surface-2)]"
 				href={`${basePath}${fmt(next)}`}
-				aria-label={`Avanzar a etapa ${fmt(next)}`}
+				aria-label={navLabel("Avanzar a", next)}
 			>
 				<span class="min-w-0">
 					<span class="block truncate text-sm font-semibold text-white">Etapa {fmt(next)}</span>

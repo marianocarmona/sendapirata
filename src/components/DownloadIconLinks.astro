@@ -5,16 +5,52 @@ import type { DownloadAsset } from "../data/etapas";
 interface Props {
   links: DownloadAsset[];
   iconClass?: string;
+  contextLabel?: string;
 }
 
-const { links, iconClass = "block w-10 h-auto cursor-pointer transition-transform hover:scale-110" } = Astro.props as Props;
+const {
+  links,
+  iconClass = "block w-10 h-auto cursor-pointer transition-transform hover:scale-110",
+  contextLabel,
+} = Astro.props as Props;
+
+const getLinkContext = (link: DownloadAsset) => {
+  if (!contextLabel) {
+    return {
+      ariaLabel: link.ariaLabel,
+      title: link.label,
+    };
+  }
+
+  if (link.kind === "audio") {
+    const label = `Audio MP3 de ${contextLabel}`;
+
+    return {
+      ariaLabel: label,
+      title: label,
+    };
+  }
+
+  const label = `Descargar ${link.label} de ${contextLabel}`;
+
+  return {
+    ariaLabel: label,
+    title: label,
+  };
+};
 ---
 
 {links.map((link) => {
   const iconDimensions = getImageDimensions(link.iconSrc);
+  const linkContext = getLinkContext(link);
 
   return (
-    <a href={link.href} download={link.download ? true : undefined} aria-label={link.ariaLabel} title={link.label}>
+    <a
+      href={link.href}
+      download={link.download ? true : undefined}
+      aria-label={linkContext.ariaLabel}
+      title={linkContext.title}
+    >
       <img
         src={link.iconSrc}
         alt={link.iconAlt}
