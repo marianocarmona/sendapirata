@@ -21,17 +21,13 @@ const navLabel = (prefix: string, n: number) => {
 
 const prev = current > 1 ? current - 1 : null;
 const next = current < total ? current + 1 : null;
-const navHeadingId = `etapa-nav-heading-${fmt(current)}`;
 ---
 
 
 <nav
 	class="etapa-nav relative mt-6! overflow-visible border-t border-[var(--sp-border)] bg-black py-6! md:-mx-[70px] md:px-[70px] md:py-8!"
-	aria-labelledby={navHeadingId}
+	aria-label="Navegación entre etapas"
 >
-	<p id={navHeadingId} class="mb-3 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--sp-muted)]">
-		Navega por etapas
-	</p>
 	<div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
 		{prev ? (
 			<a
@@ -52,6 +48,8 @@ const navHeadingId = `etapa-nav-heading-${fmt(current)}`;
 				&nbsp;
 			</span>
 		)}
+
+		{prev && next && <div aria-hidden="true" class="my-1 h-[4px] w-full bg-white/20 md:hidden"></div>}
 
 		{next ? (
 			<a
