@@ -17,6 +17,8 @@ const heroDimensions = getImageDimensions(etapa.heroImage);
     alt={etapa.heroAlt}
     width={heroDimensions.width}
     height={heroDimensions.height}
+    loading="eager"
+    fetchpriority="high"
   />
   <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
   <div class="absolute inset-0 flex items-end">
