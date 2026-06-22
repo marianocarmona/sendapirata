@@ -21,42 +21,54 @@ const navLabel = (prefix: string, n: number) => {
 
 const prev = current > 1 ? current - 1 : null;
 const next = current < total ? current + 1 : null;
+const navHeadingId = `etapa-nav-heading-${fmt(current)}`;
 ---
 
-<nav class="etapa-nav bg-black mt-6! py-8! border-t border-[var(--sp-border)] md:-mx-[70px] md:px-[70px] relative overflow-visible" aria-label="Navegación entre etapas">
-	<div class="flex items-center justify-between gap-4">
+
+<nav
+	class="etapa-nav relative mt-6! overflow-visible border-t border-[var(--sp-border)] bg-black py-6! md:-mx-[70px] md:px-[70px] md:py-8!"
+	aria-labelledby={navHeadingId}
+>
+	<p id={navHeadingId} class="mb-3 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--sp-muted)]">
+		Navega por etapas
+	</p>
+	<div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
 		{prev ? (
 			<a
-				class="group inline-flex min-w-0 flex-1 items-center justify-start gap-4 rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4! hover:bg-[var(--sp-surface-2)]"
+				class="group inline-flex min-w-0 w-full items-center justify-between gap-3 rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-3! hover:bg-[var(--sp-surface-2)] md:flex-1 md:justify-start md:gap-4 md:p-4!"
 				href={`${basePath}${fmt(prev)}`}
 				aria-label={navLabel("Volver a", prev)}
 			>
 				<span class="shrink-0 text-sm font-semibold text-white">← Anterior</span>
 				<span class="min-w-0">
-					<span class="block truncate text-sm font-semibold text-white">Etapa {fmt(prev)}</span>
-					<span class="mt-1 block truncate text-base font-semibold text-white">{titulo(prev)}</span>
+					<span class="block truncate text-xs font-semibold uppercase tracking-[0.08em] text-white md:text-sm md:normal-case md:tracking-normal">
+						Etapa {fmt(prev)}
+					</span>
+					<span class="mt-1 block truncate text-sm font-semibold text-white md:text-base">{titulo(prev)}</span>
 				</span>
 			</a>
 		) : (
-			<span class="min-w-0 flex-1 rounded-xl border border-transparent p-4 text-sm text-white">
+			<span class="hidden min-w-0 flex-1 rounded-xl border border-transparent p-4 text-sm text-white md:block" aria-hidden="true">
 				&nbsp;
 			</span>
 		)}
 
 		{next ? (
 			<a
-				class="group inline-flex min-w-0 flex-1 items-center justify-end gap-4 rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-4! text-right hover:bg-[var(--sp-surface-2)]"
+				class="group inline-flex min-w-0 w-full items-center justify-between gap-3 rounded-xl border border-[var(--sp-border)] bg-[var(--sp-surface)] p-3! text-left hover:bg-[var(--sp-surface-2)] md:flex-1 md:justify-end md:gap-4 md:p-4! md:text-right"
 				href={`${basePath}${fmt(next)}`}
 				aria-label={navLabel("Avanzar a", next)}
 			>
 				<span class="min-w-0">
-					<span class="block truncate text-sm font-semibold text-white">Etapa {fmt(next)}</span>
-					<span class="mt-1 block truncate text-base font-semibold text-white">{titulo(next)}</span>
+					<span class="block truncate text-xs font-semibold uppercase tracking-[0.08em] text-white md:text-sm md:normal-case md:tracking-normal">
+						Etapa {fmt(next)}
+					</span>
+					<span class="mt-1 block truncate text-sm font-semibold text-white md:text-base">{titulo(next)}</span>
 				</span>
 				<span class="shrink-0 text-sm font-semibold text-white">Siguiente →</span>
 			</a>
 		) : (
-			<span class="min-w-0 flex-1 rounded-xl border border-transparent p-4 text-sm text-white text-right">
+			<span class="hidden min-w-0 flex-1 rounded-xl border border-transparent p-4 text-right text-sm text-white md:block" aria-hidden="true">
 				&nbsp;
 			</span>
 		)}
