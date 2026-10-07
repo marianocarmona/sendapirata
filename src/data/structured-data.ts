@@ -97,6 +97,7 @@ export function buildEtapaSchemas(
   const routeDescription = etapa.layoutDescription || etapa.routeSummary;
   const origin = getEtapaStat(etapa, "Inicio");
   const destination = getEtapaStat(etapa, "Final");
+  const assetSchemas = buildEtapaAssetSchemas(etapa, context, routeDescription);
 
   const commonFields = {
     name: etapa.detailTitle,
@@ -113,6 +114,7 @@ export function buildEtapaSchemas(
         ...commonFields,
         about: buildRouteSummaryThing(etapa.routeSummary, origin, destination),
       }),
+      ...assetSchemas,
     ];
   }
 
@@ -123,6 +125,7 @@ export function buildEtapaSchemas(
       ...commonFields,
       itinerary: buildItinerary(origin, destination),
     }),
+    ...assetSchemas,
   ];
 }
 
@@ -138,6 +141,50 @@ function buildEtapaListItem(
     name: etapa.cardTitle,
     description: etapa.routeSummary,
   };
+}
+
+function buildEtapaAssetSchemas(
+  etapa: EtapaRecord,
+  context: AbsoluteUrlContext,
+  routeDescription: string,
+): SchemaNode[] {
+  const audioSchemas = etapa.audioTracks.map((track) =>
+    compactSchemaNode({
+      "@context": "https://schema.org",
+      "@type": "AudioObject",
+      name: track.title,
+      description: `${track.subtitle}: ${routeDescription}`,
+      contentUrl: toAbsoluteUrl(track.src, context.site),
+      encodingFormat: "audio/mpeg",
+      inLanguage: "es",
+    }),
+  );
+
+  const downloadSchemas = etapa.detailDownloads.map((download) =>
+    compactSchemaNode({
+      "@context": "https://schema.org",
+      "@type": "DigitalDocument",
+      name: `${etapa.detailTitle} ${download.label}`,
+      description: `${download.label} de la ${etapa.layoutTitle}`,
+      url: toAbsoluteUrl(download.href, context.site),
+      encodingFormat: getDownloadEncodingFormat(download.kind),
+      inLanguage: "es",
+    }),
+  );
+
+  return [...audioSchemas, ...downloadSchemas];
+}
+
+function getDownloadEncodingFormat(kind: EtapaRecord["detailDownloads"][number]["kind"]): string | undefined {
+  if (kind === "pdf") {
+    return "application/pdf";
+  }
+
+  if (kind === "gpx") {
+    return "application/gpx+xml";
+  }
+
+  return undefined;
 }
 
 function buildItinerary(origin?: string, destination?: string): SchemaNode | undefined {

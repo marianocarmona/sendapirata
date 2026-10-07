@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /sendapirata_html/
 
 Sitemap: https://sendapirata.com/sitemap-index.xml

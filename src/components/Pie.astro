@@ -19,20 +19,24 @@ const ayuntamientoDimensions = getImageDimensions("/images/ayuntamiento.webp");
 <footer class={className}>
   <div class={containerClass}>
     <div class="flex flex-col items-center justify-center gap-6 py-6 md:flex-row md:justify-between">
-      <img
-        src="/images/asemparna.webp"
-        alt="Senda Pirata"
-        class="h-12 object-contain"
-        width={asemparnaDimensions.width}
-        height={asemparnaDimensions.height}
-      />
-      <img
-        src="/images/ayuntamiento.webp"
-        alt="Senda Pirata"
-        class="h-12 object-contain"
-        width={ayuntamientoDimensions.width}
-        height={ayuntamientoDimensions.height}
-      />
+      <a href="https://cabodegata-nijar.es/" target="_blank" rel="noopener noreferrer" aria-label="Cabo de Gata-Níjar (se abre en una pestaña nueva)">
+        <img
+          src="/images/asemparna.webp"
+          alt="Senda Pirata"
+          class="h-12 object-contain"
+          width={asemparnaDimensions.width}
+          height={asemparnaDimensions.height}
+        />
+      </a>
+      <a href="https://nijar.es" target="_blank" rel="noopener noreferrer" aria-label="Ayuntamiento de Níjar (se abre en una pestaña nueva)">
+        <img
+          src="/images/ayuntamiento.webp"
+          alt="Senda Pirata"
+          class="h-12 object-contain"
+          width={ayuntamientoDimensions.width}
+          height={ayuntamientoDimensions.height}
+        />
+      </a>
 
     </div>
     <p class="text-sm text-[var(--sp-muted)] text-center mt-4">

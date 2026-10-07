@@ -13,8 +13,9 @@ import { getSiteBase } from "../data/seo-urls";
 import { buildEtapaItemListSchema, buildWebSiteSchema } from "../data/structured-data";
 
 const homeHeroDimensions = getImageDimensions("/images/fondo_playa.webp");
+const homeTitle = "Senda Pirata | Ruta por etapas en Cabo de Gata-Níjar";
 const homeDescription =
-  "Ruta de cinco etapas por la costa de Cabo de Gata-Níjar con contexto histórico sobre corsarios, audio introductorio y acceso a los recursos de cada etapa.";
+  "Recorre la Senda Pirata, una ruta de senderismo por etapas en Cabo de Gata-Níjar con mapas, audios, relatos históricos y descargas GPX y PDF.";
 const homeSocialImage = createSocialImageMetadata(
   "/images/fondo_playa.webp",
   "Paisaje costero de Cabo de Gata",
@@ -24,7 +25,7 @@ const homeSchemas = [buildWebSiteSchema({ site }), buildEtapaItemListSchema({ si
 ---
 
 <Layout
-  title="Senda Pirata"
+  title={homeTitle}
   description={homeDescription}
   socialImage={homeSocialImage}
 >
